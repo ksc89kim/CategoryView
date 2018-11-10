@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SubCategoryView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ScrollContentView : UIView
+@interface ScrollContentView : UIView <SubCategoryViewDelegate>
 
 @property (retain, nonatomic) IBOutlet UIView *view;
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
+@property (retain, nonatomic) IBOutlet SubCategoryView *subCategoryView;
 
 @end
 

@@ -14,6 +14,7 @@
 - (void)dealloc {
     [_view release];
     [_titleLabel release];
+    [_subCategoryView release];
     [super dealloc];
 }
 
@@ -30,6 +31,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setNib];
+        [self setUI];
     }
     return self;
 }
@@ -39,6 +41,7 @@
     self = [super initWithCoder:coder];
     if (self) {
         [self setNib];
+        [self setUI];
     }
     return self;
 }
@@ -48,6 +51,18 @@
     [_view setFrame:CGRectMake(0, 0, [self frame].size.width, [self frame].size.height)];
     [_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [self addSubview:_view];
+}
+
+- (void)setUI {
+    NSMutableArray *subData = [NSMutableArray arrayWithObjects:@"제1서브탭",@"제2서브탭",@"제3서브탭",@"제4서브탭", nil];
+    
+    [_subCategoryView setDelegate:self];
+    [_subCategoryView setMaxColumn:4];
+    [_subCategoryView setData:subData];
+}
+
+- (void)didSelectSubCategoryTab:(SubCategoryView *)view data:(NSString *)data {
+    NSLog(@"sub tab %@",data);
 }
 
 @end

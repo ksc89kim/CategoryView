@@ -17,10 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     NSMutableArray *mainData = [NSMutableArray arrayWithObjects:@"제1탭",@"제2탭",@"제3탭",@"제4탭",@"제5탭",@"제6탭",@"제7탭", nil];
-    NSMutableArray *subData = [NSMutableArray arrayWithObjects:@"제1서브탭",@"제2서브탭",@"제3서브탭",@"제4서브탭", nil];
-
+    
     CGFloat x = 0;
     [_scrollView layoutIfNeeded];
     for (int i=0;i<[mainData count]; i++) {
@@ -36,25 +39,16 @@
     [_mainCategoryView setIsFitTextWidth:YES];
     [_mainCategoryView setPagerScollView:_scrollView];
     [_mainCategoryView setData:mainData];
-    
-    [_subCategoryView setDelegate:self];
-    [_subCategoryView setMaxColumn:4];
-    [_subCategoryView setData:subData];
 }
 
 - (void)dealloc {
     [_mainCategoryView release];
-    [_subCategoryView release];
     [_scrollView release];
     [super dealloc];
 }
 
 - (void)didSelectMainCategoryTab:(MainCategoryView *)view data:(NSString *)data {
-    
-}
-
-- (void)didSelectSubCategoryTab:(SubCategoryView *)view data:(NSString *)data {
-    
+    NSLog(@"tab %@",data);
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
