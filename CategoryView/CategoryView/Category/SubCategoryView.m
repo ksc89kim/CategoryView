@@ -84,6 +84,18 @@
     [self updateUI];
 }
 
+- (void)setSelectIndex:(NSInteger)index {
+    if(isViewTabData && [_viewTabData count] < 1) {
+        return;
+    } else if (!isViewTabData && [_data count] < 1) {
+        return;
+    }
+    
+    _selectIndex = index;
+    [tabController selectTabIndex:_selectIndex];
+    [self doDelegate];
+}
+
 - (void)updateUI {
     for (UIView *view in [self.stackView arrangedSubviews]) {
         [self.stackView removeArrangedSubview:view];
@@ -102,6 +114,7 @@
     NSInteger count = (_viewTabData.count / _maxColumn);
     count = (_viewTabData.count % _maxColumn == 0) ? count:count+1;
     NSInteger index = 0;
+    [tabViews removeAllObjects];
     for (int i=1;i<=count;i++) {
         UIStackView *horizontalStackView = [[[UIStackView alloc] init] autorelease];
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -147,6 +160,7 @@
     NSInteger count = (_data.count / _maxColumn);
     count = (_data.count % _maxColumn == 0) ? count:count+1;
     NSInteger index = 0;
+    [tabViews removeAllObjects];
     for (int i=1;i<=count;i++) {
         UIStackView *horizontalStackView = [[[UIStackView alloc] init] autorelease];
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -209,20 +223,32 @@
  
 }
 
+- (ViewTabData *)getCurrentViewTabData {
+    if(isViewTabData && [_viewTabData count] > 0) {
+        return [_viewTabData objectAtIndex:_selectIndex];
+    }
+    return nil;
+}
 
 - (void)touchTab:(TabController *)tabController selectedButtonView:(TabButtonView *)buttonView {
+    _selectIndex = buttonView.tag;
+    [self doDelegate];
+}
+
+- (void)doDelegate {
     if ([_delegate respondsToSelector:@selector(didSelectSubCategoryTab:data:)]) {
-        [_delegate didSelectSubCategoryTab:self data:[_data objectAtIndex:buttonView.tag]];
+        [_delegate didSelectSubCategoryTab:self data:[_data objectAtIndex:_selectIndex]];
     }
     
     if ([_delegate respondsToSelector:@selector(didSelectSubCategoryTab:index:)]) {
-        [_delegate didSelectSubCategoryTab:self index:buttonView.tag];
+        [_delegate didSelectSubCategoryTab:self index:_selectIndex];
     }
     
     if ([_delegate respondsToSelector:@selector(didSelectSubCategoryTab:viewTabData:)]) {
-        [_delegate didSelectSubCategoryTab:self viewTabData:[_viewTabData objectAtIndex:buttonView.tag]];
+        [_delegate didSelectSubCategoryTab:self viewTabData:[_viewTabData objectAtIndex:_selectIndex]];
     }
 }
+
 
 
 

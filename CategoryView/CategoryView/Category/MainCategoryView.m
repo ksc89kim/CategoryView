@@ -27,6 +27,8 @@
     [gatherView release];
     [_gatherTitleView release];
     [_gatherTitleLabel release];
+    [_topLine release];
+    [_shadowImageView release];
     [super dealloc];
 }
 
@@ -77,7 +79,7 @@
 
 - (void)setUI {
     _maxShowCount = 5;
-
+    
     gatherView = [[MainCategoryGatherView alloc] init];
     [gatherView setDelegate:self];
     gatherView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -115,12 +117,12 @@
     }
     
     NSLayoutConstraint *heightConstraint =  [NSLayoutConstraint constraintWithItem:gatherView
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                multiplier:1
-                                                                  constant:height];
+                                                                         attribute:NSLayoutAttributeHeight
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:nil
+                                                                         attribute:NSLayoutAttributeHeight
+                                                                        multiplier:1
+                                                                          constant:height];
     [gatherView addConstraint:heightConstraint];
     [self addConstraints:[NSArray arrayWithObjects:top,leading,trailing,nil]];
     [gatherView setHidden:YES];
@@ -170,6 +172,12 @@
 }
 
 - (void)setSelectIndex:(NSInteger)index {
+    if(isViewTabData && [_viewTabData count] < 1) {
+        return;
+    } else if (!isViewTabData && [_data count] < 1) {
+        return;
+    }
+    
     [self layoutIfNeeded];
     isAnimation = YES;
     _selectIndex = index;
@@ -180,6 +188,7 @@
         [_pagerScollView setContentOffset:CGPointMake([_pagerScollView bounds].size.width * _selectIndex, _pagerScollView.contentOffset.y) animated:YES];
     }
     [self moveCenterScrollView:_selectIndex];
+    
     [UIView animateWithDuration:0.3
                           delay:0.0
                         options: UIViewAnimationOptionCurveEaseOut
@@ -200,6 +209,7 @@
     if (tailOffsetW > 50) {
         tailOffsetW = 50;
     }
+    
     [_scrollView setContentOffset:CGPointMake(tailOffsetW, 0)];
     [UIView animateWithDuration:0.5
                           delay:0
@@ -218,7 +228,7 @@
     } else {
         [_buttonViewWidthConstraint setConstant:42];
     }
-  
+    
 }
 
 - (void)setData:(NSMutableArray<NSString *> *)data {
@@ -252,14 +262,14 @@
 }
 
 - (ViewTabData *)getCurrentViewTabData {
-    if(isViewTabData) {
+    if(isViewTabData && [_viewTabData count] > 0) {
         return [_viewTabData objectAtIndex:_selectIndex];
     }
     return nil;
 }
 
 - (NSString *)getCurrentData {
-    if (!isViewTabData) {
+    if (!isViewTabData && [_data count] > 0) {
         return [_data objectAtIndex:_selectIndex];
     }
     return nil;
@@ -267,6 +277,7 @@
 
 
 - (void)updateUI {
+    [_view layoutIfNeeded];
     [_scrollView layoutIfNeeded];
     
     for (UIView *view in [tabController buttonViews]) {
@@ -278,7 +289,7 @@
     } else {
         [self updateDataUI];
     }
-  
+    
     [self layoutIfNeeded];
 }
 
@@ -335,12 +346,14 @@
     }
     [tabController setTabs:YES tabs:tabs];
     [_contentViewWidthConstraint setConstant:contentViewWidth];
+    [self checkScrollViewWidth:_data.count];
 }
 
 - (void)updateViewTabDataUI {
     NSMutableArray *tabs = [[[NSMutableArray alloc] init] autorelease];
     MainCategoryTabButtonView *beforeTabView = nil;
     CGFloat contentViewWidth = 0;
+    
     for (int i=0;i<[_viewTabData count];i++) {
         MainCategoryTabButtonView *tabView = [[[MainCategoryTabButtonView alloc] init] autorelease];
         ViewTabData *data = (ViewTabData *)[_viewTabData objectAtIndex:i];
@@ -348,12 +361,8 @@
         [tabs addObject:tabView];
         [_contentView addSubview:tabView];
         [self setFitTextWidth:tabView];
-        if (data.isNew) {
-//            [tabView.imageView setHidden:NO];
-            [tabView.viewWidthConstraint setConstant:[tabView.viewWidthConstraint constant] + 20];
-        } else {
-//            [tabView.imageView setHidden:YES];
-        }
+        
+
         contentViewWidth += [tabView.viewWidthConstraint constant];
         
         NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:tabView
@@ -394,8 +403,31 @@
         beforeTabView = tabView;
         [_contentView addConstraints:[NSArray arrayWithObjects:top,bottom,left, nil]];
     }
+    
     [tabController setTabs:YES tabs:tabs];
     [_contentViewWidthConstraint setConstant:contentViewWidth];
+    [self checkScrollViewWidth:_viewTabData.count];
+}
+
+- (void)checkScrollViewWidth:(NSInteger)dataCount {
+    if (dataCount < 1) {
+        return;
+    }
+    
+    if (_isFitTextWidth) {
+        if ([_contentViewWidthConstraint constant] > _view.bounds.size.width - [_buttonViewWidthConstraint constant]) {
+            [self setGatherButtonHidden:NO];
+        } else {
+            [self setGatherButtonHidden:YES];
+            [_view layoutIfNeeded];
+            CGFloat buttonWidth = _scrollView.frame.size.width;
+            buttonWidth = _scrollView.frame.size.width / dataCount;
+            for (MainCategoryTabButtonView *tabView in [tabController buttonViews]) {
+                [tabView.viewWidthConstraint setConstant:buttonWidth];
+            }
+            [_contentViewWidthConstraint setConstant:_scrollView.frame.size.width];
+        }
+    }
 }
 
 - (void)setFitTextWidth:(MainCategoryTabButtonView *)tabView {
@@ -433,6 +465,7 @@
         _selectIndex = currentIndex;
         [tabController selectTabIndex:_selectIndex];
         [self moveCenterScrollView:_selectIndex];
+        [gatherView setSelectIndex:_selectIndex];
         [self doDelegate];
     }
     
@@ -579,3 +612,4 @@
 }
 
 @end
+

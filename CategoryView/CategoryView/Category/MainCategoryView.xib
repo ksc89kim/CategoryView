@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -25,6 +25,8 @@
                 <outlet property="scrollView" destination="jIc-72-I8k" id="fLZ-s5-cmb"/>
                 <outlet property="selectBarLeftConstraint" destination="cR3-Vj-uUC" id="bh1-PG-ewp"/>
                 <outlet property="selectBarWidthConstraint" destination="Ayl-gD-4gJ" id="q4Y-c5-pFd"/>
+                <outlet property="shadowImageView" destination="TTC-tI-1eY" id="EB8-ZW-hSW"/>
+                <outlet property="topLine" destination="8Lf-KA-WKX" id="tj8-fT-YKK"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3B9-Ew-uDs"/>
             </connections>
         </placeholder>
@@ -77,7 +79,7 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0M5-vq-goH" userLabel="actionButton">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                            <state key="normal" image="sketchCbtnDown180927.png"/>
+                            <state key="normal" image="sketchCbtnDown180927"/>
                             <state key="selected" image="sketchCbtn180927.png"/>
                         </button>
                     </subviews>
@@ -97,7 +99,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="333" height="42"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="모아보기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rk1-0G-zNE">
-                            <rect key="frame" x="13" y="11.5" width="307" height="19"/>
+                            <rect key="frame" x="13" y="13" width="307" height="16.5"/>
                             <fontDescription key="fontDescription" name="NotoSansCJKkr-Bold" family="Noto Sans CJK KR" pointSize="14"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -110,6 +112,12 @@
                         <constraint firstItem="rk1-0G-zNE" firstAttribute="leading" secondItem="VFi-ZQ-4z4" secondAttribute="leading" constant="13" id="SqE-UJ-e77"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sketch_g_2_181112" translatesAutoresizingMaskIntoConstraints="NO" id="TTC-tI-1eY" userLabel="shadowImageView">
+                    <rect key="frame" x="325" y="0.0" width="8" height="42"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="TTC-tI-1eY" secondAttribute="height" multiplier="4:21" id="gS1-KG-lKg"/>
+                    </constraints>
+                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="886-au-vSc" userLabel="line">
                     <rect key="frame" x="0.0" y="41" width="375" height="1"/>
                     <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
@@ -117,13 +125,23 @@
                         <constraint firstAttribute="height" constant="1" id="Phu-AO-w6l"/>
                     </constraints>
                 </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Lf-KA-WKX" userLabel="topLine">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                    <color key="backgroundColor" red="0.92156862750000001" green="0.92156862750000001" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="jix-Ud-I5Q"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="HAQ-lY-Lfn" secondAttribute="trailing" id="5Z9-Lr-8KF"/>
+                <constraint firstAttribute="bottom" secondItem="TTC-tI-1eY" secondAttribute="bottom" id="8y2-h3-f30"/>
                 <constraint firstItem="VFi-ZQ-4z4" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="97M-gS-FHZ"/>
+                <constraint firstItem="8Lf-KA-WKX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DRV-cH-lZ2"/>
                 <constraint firstItem="HAQ-lY-Lfn" firstAttribute="leading" secondItem="jIc-72-I8k" secondAttribute="trailing" id="IeG-IJ-X3o"/>
                 <constraint firstAttribute="trailing" secondItem="886-au-vSc" secondAttribute="trailing" id="L2f-wv-fQw"/>
+                <constraint firstItem="8Lf-KA-WKX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Mok-Rb-zOY"/>
                 <constraint firstItem="HAQ-lY-Lfn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="MwC-EJ-Ac7"/>
                 <constraint firstItem="VFi-ZQ-4z4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="N8z-Um-Tqr"/>
                 <constraint firstItem="886-au-vSc" firstAttribute="top" secondItem="jIc-72-I8k" secondAttribute="bottom" id="OKF-vs-2SC"/>
@@ -131,9 +149,12 @@
                 <constraint firstItem="jIc-72-I8k" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="bHJ-fc-IwW"/>
                 <constraint firstItem="jIc-72-I8k" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eve-GF-fhN"/>
                 <constraint firstItem="HAQ-lY-Lfn" firstAttribute="leading" secondItem="VFi-ZQ-4z4" secondAttribute="trailing" id="gxE-JK-ipi"/>
+                <constraint firstAttribute="trailing" secondItem="8Lf-KA-WKX" secondAttribute="trailing" id="ko6-uh-ykc"/>
                 <constraint firstAttribute="bottom" secondItem="VFi-ZQ-4z4" secondAttribute="bottom" id="mF7-Yd-Phd"/>
+                <constraint firstItem="HAQ-lY-Lfn" firstAttribute="leading" secondItem="TTC-tI-1eY" secondAttribute="trailing" id="p1t-pj-sXy"/>
                 <constraint firstAttribute="bottom" secondItem="HAQ-lY-Lfn" secondAttribute="bottom" id="pH4-cB-1sF"/>
                 <constraint firstAttribute="bottom" secondItem="886-au-vSc" secondAttribute="bottom" id="r9k-ic-gXW"/>
+                <constraint firstItem="TTC-tI-1eY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zuh-QA-R2v"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="40.799999999999997" y="46.776611694152926"/>
@@ -141,6 +162,7 @@
     </objects>
     <resources>
         <image name="sketchCbtn180927.png" width="16" height="9"/>
-        <image name="sketchCbtnDown180927.png" width="16" height="9"/>
+        <image name="sketchCbtnDown180927" width="16" height="9"/>
+        <image name="sketch_g_2_181112" width="8" height="42"/>
     </resources>
 </document>

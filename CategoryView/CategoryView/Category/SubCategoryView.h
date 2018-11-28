@@ -25,8 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (retain, nonatomic) NSMutableArray<NSString *> *data;
 @property (retain, nonatomic) NSMutableArray<ViewTabData *> *viewTabData;
 @property NSInteger maxColumn;
+@property (assign, nonatomic) NSInteger selectIndex;
 
 - (void)tabAnimation;
+- (ViewTabData *)getCurrentViewTabData;
 
 @end
 

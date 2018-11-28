@@ -50,6 +50,8 @@ typedef NS_ENUM(NSUInteger, MainCategoryPagerScrollDirection) {
 @property (retain, nonatomic) IBOutlet UIButton *actionButton;
 @property (retain, nonatomic) IBOutlet UIView *gatherTitleView;
 @property (retain, nonatomic) IBOutlet UILabel *gatherTitleLabel;
+@property (retain, nonatomic) IBOutlet UIView *topLine;
+@property (retain, nonatomic) IBOutlet UIImageView *shadowImageView;
 
 - (void)setGatherButtonHidden:(BOOL)hidden;
 - (void)updatePagerScrollView;
