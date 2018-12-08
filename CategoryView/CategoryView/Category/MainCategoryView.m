@@ -44,10 +44,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setNib];
-        [self setUI];
-        [self setEvent];
-        [self setController];
+        [self setup];
     }
     return self;
 }
@@ -56,16 +53,29 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        [self setNib];
-        [self setUI];
-        [self setEvent];
-        [self setController];
     }
     return self;
 }
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    [self setup];
+}
+
+- (void)prepareForInterfaceBuilder{
+    [super prepareForInterfaceBuilder];
+    [self setup];
+}
+
+- (void)setup {
+    [self setNib];
+    [self setUI];
+    [self setEvent];
+    [self setController];
+}
+
 - (void)setNib{
-    _view = [[[NSBundle mainBundle] loadNibNamed:@"MainCategoryView" owner:self options:nil] objectAtIndex:0];
+    _view = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] objectAtIndex:0];
     [_view setFrame:CGRectMake(0, 0, [self frame].size.width, [self frame].size.height)];
     [_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [self addSubview:_view];
@@ -79,12 +89,52 @@
 
 - (void)setUI {
     _maxShowCount = 5;
+    [self setGatherUI];
+}
+
+- (void)setConstraint:(UIView *)view {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *viewWidth =  [NSLayoutConstraint constraintWithItem:view
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                 multiplier:1
+                                                                   constant:0];
     
+    NSLayoutConstraint *viewHeight =  [NSLayoutConstraint constraintWithItem:view
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:self
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                  multiplier:1
+                                                                    constant:0];
+    
+    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:view
+                                                               attribute:NSLayoutAttributeCenterX
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self
+                                                               attribute:NSLayoutAttributeCenterX
+                                                              multiplier:1
+                                                                constant:0];
+    
+    NSLayoutConstraint *centerY = [NSLayoutConstraint constraintWithItem:view
+                                                               attribute:NSLayoutAttributeCenterY
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self
+                                                               attribute:NSLayoutAttributeCenterY
+                                                              multiplier:1
+                                                                constant:0];
+    
+    [self addConstraints:[NSArray arrayWithObjects:viewWidth,viewHeight,centerX,centerY,nil]];
+}
+
+- (void)setGatherUI {
     gatherView = [[MainCategoryGatherView alloc] init];
     [gatherView setDelegate:self];
     gatherView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:gatherView];
-    
+
     NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:gatherView
                                                             attribute:NSLayoutAttributeTop
                                                             relatedBy:NSLayoutRelationEqual
@@ -92,6 +142,7 @@
                                                             attribute:NSLayoutAttributeBottom
                                                            multiplier:1
                                                              constant:0];
+    
     NSLayoutConstraint *leading =  [NSLayoutConstraint constraintWithItem:gatherView
                                                                 attribute:NSLayoutAttributeLeading
                                                                 relatedBy:NSLayoutRelationEqual
@@ -132,45 +183,6 @@
     [_actionButton addTarget:self action:@selector(onGatherView:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setConstraint:(UIView *)view {
-    self.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    //xib view autolayout setting
-    NSLayoutConstraint *viewWidth =  [NSLayoutConstraint constraintWithItem:view
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                 multiplier:1
-                                                                   constant:0];
-    
-    NSLayoutConstraint *viewHeight =  [NSLayoutConstraint constraintWithItem:view
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                  multiplier:1
-                                                                    constant:0];
-    
-    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1
-                                                                constant:0];
-    
-    NSLayoutConstraint *centerY = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterY
-                                                              multiplier:1
-                                                                constant:0];
-    
-    [self addConstraints:[NSArray arrayWithObjects:viewWidth,viewHeight,centerX,centerY,nil]];
-}
-
 - (void)setSelectIndex:(NSInteger)index {
     if(isViewTabData && [_viewTabData count] < 1) {
         return;
@@ -184,6 +196,7 @@
     [gatherView setSelectIndex:_selectIndex];
     MainCategoryTabButtonView *tabView = (MainCategoryTabButtonView *)[tabController getButtonView:_selectIndex];
     [tabController selectTabIndex:_selectIndex];
+    
     if (_pagerScollView != nil) {
         [_pagerScollView setContentOffset:CGPointMake([_pagerScollView bounds].size.width * _selectIndex, _pagerScollView.contentOffset.y) animated:YES];
     }
@@ -219,7 +232,6 @@
                      }
                      completion:nil];
 }
-
 
 - (void)setGatherButtonHidden:(BOOL)hidden {
     [_actionButton setHidden:hidden];
@@ -293,57 +305,22 @@
     [self layoutIfNeeded];
 }
 
-
 - (void)updateDataUI {
     NSMutableArray *tabs = [[[NSMutableArray alloc] init] autorelease];
     MainCategoryTabButtonView *beforeTabView = nil;
     CGFloat contentViewWidth = 0;
+    
     for (int i=0;i<[_data count];i++) {
-        MainCategoryTabButtonView *tabView = [[[MainCategoryTabButtonView alloc] init] autorelease];
-        [tabView.titleLabel setText:[_data objectAtIndex:i]];
+        NSString *data = [_data objectAtIndex:i];
+        MainCategoryTabButtonView *tabView =  [self createMainCategoryTabButtonView:data isNew:NO];
         [tabs addObject:tabView];
         [_contentView addSubview:tabView];
-        [self setFitTextWidth:tabView];
+        
         contentViewWidth += [tabView.viewWidthConstraint constant];
-        
-        NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:tabView
-                                                                attribute:NSLayoutAttributeTop
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:_contentView
-                                                                attribute:NSLayoutAttributeTop
-                                                               multiplier:1
-                                                                 constant:0];
-        
-        NSLayoutConstraint *bottom =  [NSLayoutConstraint constraintWithItem:_contentView
-                                                                   attribute:NSLayoutAttributeBottom
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:tabView
-                                                                   attribute:NSLayoutAttributeBottom
-                                                                  multiplier:1
-                                                                    constant:1];
-        NSLayoutConstraint *left = nil;
-        if (beforeTabView == nil) {
-            left = [NSLayoutConstraint constraintWithItem:tabView
-                                                attribute:NSLayoutAttributeLeft
-                                                relatedBy:NSLayoutRelationEqual
-                                                   toItem:_contentView
-                                                attribute:NSLayoutAttributeLeft
-                                               multiplier:1
-                                                 constant:0];
-            [_selectBarLeftConstraint setConstant:0];
-            [_selectBarWidthConstraint setConstant:[tabView.viewWidthConstraint constant]];
-        } else {
-            left = [NSLayoutConstraint constraintWithItem:tabView
-                                                attribute:NSLayoutAttributeLeft
-                                                relatedBy:NSLayoutRelationEqual
-                                                   toItem:beforeTabView
-                                                attribute:NSLayoutAttributeRight
-                                               multiplier:1
-                                                 constant:0];
-        }
+        [self addContentViewConstraints:tabView beforeTabView:beforeTabView];
         beforeTabView = tabView;
-        [_contentView addConstraints:[NSArray arrayWithObjects:top,bottom,left, nil]];
     }
+    
     [tabController setTabs:YES tabs:tabs];
     [_contentViewWidthConstraint setConstant:contentViewWidth];
     [self checkScrollViewWidth:_data.count];
@@ -355,58 +332,72 @@
     CGFloat contentViewWidth = 0;
     
     for (int i=0;i<[_viewTabData count];i++) {
-        MainCategoryTabButtonView *tabView = [[[MainCategoryTabButtonView alloc] init] autorelease];
-        ViewTabData *data = (ViewTabData *)[_viewTabData objectAtIndex:i];
-        [tabView.titleLabel setText:data.title];
+        ViewTabData *data = [_viewTabData objectAtIndex:i];
+        MainCategoryTabButtonView *tabView =  [self createMainCategoryTabButtonView:[data title] isNew:[data isNew]];
         [tabs addObject:tabView];
         [_contentView addSubview:tabView];
-        [self setFitTextWidth:tabView];
         
-
         contentViewWidth += [tabView.viewWidthConstraint constant];
-        
-        NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:tabView
-                                                                attribute:NSLayoutAttributeTop
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:_contentView
-                                                                attribute:NSLayoutAttributeTop
-                                                               multiplier:1
-                                                                 constant:0];
-        
-        NSLayoutConstraint *bottom =  [NSLayoutConstraint constraintWithItem:_contentView
-                                                                   attribute:NSLayoutAttributeBottom
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:tabView
-                                                                   attribute:NSLayoutAttributeBottom
-                                                                  multiplier:1
-                                                                    constant:1];
-        NSLayoutConstraint *left = nil;
-        if (beforeTabView == nil) {
-            left = [NSLayoutConstraint constraintWithItem:tabView
-                                                attribute:NSLayoutAttributeLeft
-                                                relatedBy:NSLayoutRelationEqual
-                                                   toItem:_contentView
-                                                attribute:NSLayoutAttributeLeft
-                                               multiplier:1
-                                                 constant:0];
-            [_selectBarLeftConstraint setConstant:0];
-            [_selectBarWidthConstraint setConstant:[tabView.viewWidthConstraint constant]];
-        } else {
-            left = [NSLayoutConstraint constraintWithItem:tabView
-                                                attribute:NSLayoutAttributeLeft
-                                                relatedBy:NSLayoutRelationEqual
-                                                   toItem:beforeTabView
-                                                attribute:NSLayoutAttributeRight
-                                               multiplier:1
-                                                 constant:0];
-        }
+        [self addContentViewConstraints:tabView beforeTabView:beforeTabView];
         beforeTabView = tabView;
-        [_contentView addConstraints:[NSArray arrayWithObjects:top,bottom,left, nil]];
     }
     
     [tabController setTabs:YES tabs:tabs];
     [_contentViewWidthConstraint setConstant:contentViewWidth];
     [self checkScrollViewWidth:_viewTabData.count];
+}
+
+- (MainCategoryTabButtonView *)createMainCategoryTabButtonView:(NSString *)title isNew:(BOOL)isNew {
+    MainCategoryTabButtonView *tabView = [[[MainCategoryTabButtonView alloc] init] autorelease];
+    [tabView.titleLabel setText:title];
+    if (isNew) {
+        [tabView.imageView setHidden:NO];
+        [tabView.viewWidthConstraint setConstant:[tabView.viewWidthConstraint constant] + 20];
+    } else {
+        [tabView.imageView setHidden:YES];
+    }
+    [self setFitTextWidth:tabView];
+    return tabView;
+}
+
+- (void)addContentViewConstraints:(MainCategoryTabButtonView *)currentTabView beforeTabView:(MainCategoryTabButtonView *)beforeTabView{
+    NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:currentTabView
+                                                            attribute:NSLayoutAttributeTop
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:_contentView
+                                                            attribute:NSLayoutAttributeTop
+                                                           multiplier:1
+                                                             constant:0];
+    
+    NSLayoutConstraint *bottom =  [NSLayoutConstraint constraintWithItem:_contentView
+                                                               attribute:NSLayoutAttributeBottom
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:currentTabView
+                                                               attribute:NSLayoutAttributeBottom
+                                                              multiplier:1
+                                                                constant:1];
+    NSLayoutConstraint *left = nil;
+    if (beforeTabView == nil) {
+        left = [NSLayoutConstraint constraintWithItem:currentTabView
+                                            attribute:NSLayoutAttributeLeft
+                                            relatedBy:NSLayoutRelationEqual
+                                               toItem:_contentView
+                                            attribute:NSLayoutAttributeLeft
+                                           multiplier:1
+                                             constant:0];
+        
+        [_selectBarLeftConstraint setConstant:0];
+        [_selectBarWidthConstraint setConstant:[currentTabView.viewWidthConstraint constant]];
+    } else {
+        left = [NSLayoutConstraint constraintWithItem:currentTabView
+                                            attribute:NSLayoutAttributeLeft
+                                            relatedBy:NSLayoutRelationEqual
+                                               toItem:beforeTabView
+                                            attribute:NSLayoutAttributeRight
+                                           multiplier:1
+                                             constant:0];
+    }
+    [_contentView addConstraints:[NSArray arrayWithObjects:top,bottom,left, nil]];
 }
 
 - (void)checkScrollViewWidth:(NSInteger)dataCount {
@@ -529,8 +520,6 @@
     CGFloat percent = (([nextTabView.viewWidthConstraint constant] -[currentTabView.viewWidthConstraint constant]) * currentScrollPercent / 100);
     [_selectBarWidthConstraint setConstant:[currentTabView.viewWidthConstraint constant] + percent];
 }
-
-
 
 - (void)doDelegate {
     if ([_delegate respondsToSelector:@selector(didSelectMainCategoryTab:data:)]) {

@@ -14,48 +14,57 @@
 - (void)dealloc {
     [_view release];
     [_titleLabel release];
+    [_imageView release];
     [super dealloc];
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [self initWithFrame:[[[UIApplication sharedApplication] keyWindow] bounds]];
     if (self) {
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setNib];
-        [self setUI];
+        [self setup];
     }
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self setNib];
-        [self setUI];
     }
     return self;
+}
+
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    [self setup];
+}
+
+- (void)prepareForInterfaceBuilder{
+    [super prepareForInterfaceBuilder];
+    [self setup];
+}
+
+- (void)setup {
+    [self setNib];
+    [self setUI];
 }
 
 - (void)setNib{
-    _view = [[[NSBundle mainBundle] loadNibNamed:@"MainCategoryTabButtonView" owner:self options:nil] objectAtIndex:0];
+    _view = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] objectAtIndex:0];
     [_view setFrame:CGRectMake(0, 0, [self frame].size.width, [self frame].size.height)];
     [_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [self addSubview:_view];
     [self setConstraint:_view];
-    [self setDefaultView];
 }
 
 - (void)setUI {
-
+    [self setDefaultView];
 }
 
 - (void)setConstraint:(UIView *)view {
@@ -130,6 +139,9 @@
     return findConstraint;
 }
 
+- (NSLayoutConstraint *) findViewWidthConstraint {
+    return [self findViewConstraint:self identifier:@"mainCategoryWidthConstraint"];
+}
 
 - (void) setDefaultView {
     [_titleLabel setTextColor:UIColor.blackColor];
@@ -142,11 +154,5 @@
     UIFont *font = [UIFont boldSystemFontOfSize:[_titleLabel.font pointSize]];
     [_titleLabel setFont:font];
 }
-
-- (NSLayoutConstraint *) findViewWidthConstraint {
-    return [self findViewConstraint:self identifier:@"mainCategoryWidthConstraint"];
-}
-
-
 
 @end

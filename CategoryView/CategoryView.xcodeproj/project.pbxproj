@@ -19,6 +19,8 @@
 		A421E1CF2196F65A00CF9A99 /* ViewTabData.m in Sources */ = {isa = PBXBuildFile; fileRef = A421E1CE2196F65A00CF9A99 /* ViewTabData.m */; };
 		A421E1D52196FD3E00CF9A99 /* ScrollContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A421E1D42196FD3E00CF9A99 /* ScrollContentView.xib */; };
 		A421E1D82196FD5200CF9A99 /* ScrollContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A421E1D72196FD5200CF9A99 /* ScrollContentView.m */; };
+		A42F3C3221BBA2C8009E2CB0 /* MainCategorySelectBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A42F3C3121BBA2C8009E2CB0 /* MainCategorySelectBar.m */; };
+		A42F3C3421BBA2EF009E2CB0 /* MainCategorySelectBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = A42F3C3321BBA2EE009E2CB0 /* MainCategorySelectBar.xib */; };
 		A476A9712196E170009892BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A476A9702196E170009892BC /* AppDelegate.m */; };
 		A476A9742196E170009892BC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A476A9732196E170009892BC /* ViewController.m */; };
 		A476A9772196E170009892BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A476A9752196E170009892BC /* Main.storyboard */; };
@@ -72,6 +74,9 @@
 		A421E1D42196FD3E00CF9A99 /* ScrollContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScrollContentView.xib; sourceTree = "<group>"; };
 		A421E1D62196FD5200CF9A99 /* ScrollContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollContentView.h; sourceTree = "<group>"; };
 		A421E1D72196FD5200CF9A99 /* ScrollContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollContentView.m; sourceTree = "<group>"; };
+		A42F3C3021BBA2C8009E2CB0 /* MainCategorySelectBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainCategorySelectBar.h; sourceTree = "<group>"; };
+		A42F3C3121BBA2C8009E2CB0 /* MainCategorySelectBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainCategorySelectBar.m; sourceTree = "<group>"; };
+		A42F3C3321BBA2EE009E2CB0 /* MainCategorySelectBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainCategorySelectBar.xib; sourceTree = "<group>"; };
 		A476A96C2196E170009892BC /* CategoryView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CategoryView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A476A96F2196E170009892BC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A476A9702196E170009892BC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -209,6 +214,7 @@
 				A421E1C22196E63100CF9A99 /* MainCategoryGatherView.xib */,
 				A421E1B82196E5FC00CF9A99 /* MainCategoryGatherTabButtonView.xib */,
 				A421E1BA2196E5FC00CF9A99 /* MainCategoryTabButtonView.xib */,
+				A42F3C3321BBA2EE009E2CB0 /* MainCategorySelectBar.xib */,
 				A421E1B92196E5FC00CF9A99 /* MainCategoryView.xib */,
 				A421E1BB2196E5FC00CF9A99 /* SubCategoryTabButtonView.xib */,
 				A421E1BC2196E5FC00CF9A99 /* SubCategoryView.xib */,
@@ -220,6 +226,8 @@
 				A476A9A92196E1B6009892BC /* MainCategoryTabButtonView.m */,
 				A476A9AB2196E1B6009892BC /* MainCategoryView.h */,
 				A476A9AC2196E1B6009892BC /* MainCategoryView.m */,
+				A42F3C3021BBA2C8009E2CB0 /* MainCategorySelectBar.h */,
+				A42F3C3121BBA2C8009E2CB0 /* MainCategorySelectBar.m */,
 				A476A9AE2196E1B6009892BC /* SubCategoryTabButtonView.h */,
 				A476A9AF2196E1B6009892BC /* SubCategoryTabButtonView.m */,
 				A476A9B12196E1B6009892BC /* SubCategoryView.h */,
@@ -347,6 +355,7 @@
 				A421E1D52196FD3E00CF9A99 /* ScrollContentView.xib in Resources */,
 				A421E1BE2196E5FC00CF9A99 /* MainCategoryView.xib in Resources */,
 				A421E1C12196E5FC00CF9A99 /* SubCategoryView.xib in Resources */,
+				A42F3C3421BBA2EF009E2CB0 /* MainCategorySelectBar.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +387,7 @@
 				A476A9742196E170009892BC /* ViewController.m in Sources */,
 				A476A9C02196E1B6009892BC /* SubCategoryTabButtonView.m in Sources */,
 				A476A9C22196E1B6009892BC /* SubCategoryView.m in Sources */,
+				A42F3C3221BBA2C8009E2CB0 /* MainCategorySelectBar.m in Sources */,
 				A476A97F2196E173009892BC /* main.m in Sources */,
 				A421E1CA2196F5FB00CF9A99 /* AutoHeightStackView.m in Sources */,
 				A421E1CD2196F62300CF9A99 /* AutoHeightLabel.m in Sources */,

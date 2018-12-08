@@ -29,8 +29,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setNib];
-        [self setUI];
+        [self setup];
     }
     return self;
 }
@@ -39,21 +38,35 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        [self setNib];
-        [self setUI];
     }
     return self;
 }
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    [self setup];
+}
+
+- (void)prepareForInterfaceBuilder{
+    [super prepareForInterfaceBuilder];
+    [self setup];
+}
+
+- (void)setup {
+    [self setNib];
+    [self setUI];
+}
+
 - (void)setNib{
-    _view = [[[NSBundle mainBundle] loadNibNamed:@"MainCategoryGatherTabButtonView" owner:self options:nil] objectAtIndex:0];
+    _view = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] objectAtIndex:0];
     [_view setFrame:CGRectMake(0, 0, [self frame].size.width, [self frame].size.height)];
     [_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [self addSubview:_view];
-    [self setDefaultView];
 }
 
 - (void)setUI {
+    [self setDefaultView];
+    
     [self.layer setCornerRadius:7];
     [self.layer setBorderWidth:1];
 }

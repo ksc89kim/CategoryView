@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
     - 상속하여 사용하고, initBaseHeight을 반드시 설정해야함.
  */
 
-
 @interface AutoHeightContentView : UIView {
     NSLayoutConstraint *viewHeightConstraint;
     NSMutableArray<AutoHeightLabel *> *autoHeightLabels;

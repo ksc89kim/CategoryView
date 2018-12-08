@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, MainCategoryPagerScrollDirection) {
 @property (retain, nonatomic) IBOutlet UIView *view;
 @property (retain, nonatomic) NSMutableArray<NSString *> *data;
 @property (retain, nonatomic) NSMutableArray<ViewTabData *> *viewTabData;
-@property (nonatomic, assign) id <MainCategoryViewDelegate> delegate;
+@property (assign,nonatomic) id <MainCategoryViewDelegate> delegate;
 @property (retain, nonatomic) IBOutlet UIView *contentView;
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (retain, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidthConstraint;
@@ -64,7 +64,6 @@ typedef NS_ENUM(NSUInteger, MainCategoryPagerScrollDirection) {
 @end
 
 @protocol MainCategoryViewDelegate <NSObject>
-
 @optional
 - (void)didSelectMainCategoryTab:(MainCategoryView *)view data:(NSString *)data;
 - (void)didSelectMainCategoryTab:(MainCategoryView *)view viewTabData:(ViewTabData *)data;
