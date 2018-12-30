@@ -8,32 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import "TabController.h"
-#import "MainCategoryTabButtonView.h"
 #import "MainCategoryGatherView.h"
+#import "MainCategorySelectBar.h"
+#import "MainCategoryCurrentData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, MainCategoryPagerScrollDirection) {
-    NoneDirection,
-    LeftDirection,
-    RightDirection
-};
-
 @class ViewTabData;
 @protocol MainCategoryViewDelegate;
-@interface MainCategoryView : UIView <TabControllerDelegate, MainCategoryGatherViewDelegate> {
+@interface MainCategoryView : CustomXibView <TabControllerDelegate, MainCategoryGatherViewDelegate> {
     TabController *tabController;
     CGFloat beforeOffsetX;
     BOOL isAnimation;
-    CGFloat currentOffsetX;
-    NSInteger currentIndex;
-    CGFloat currentScrollPercent;
-    MainCategoryTabButtonView *currentTabView;
     BOOL isViewTabData;
+    MainCategoryCurrentData *currentData;
     MainCategoryGatherView *gatherView;
 }
 
-@property (retain, nonatomic) IBOutlet UIView *view;
 @property (retain, nonatomic) NSMutableArray<NSString *> *data;
 @property (retain, nonatomic) NSMutableArray<ViewTabData *> *viewTabData;
 @property (assign,nonatomic) id <MainCategoryViewDelegate> delegate;
@@ -41,8 +32,7 @@ typedef NS_ENUM(NSUInteger, MainCategoryPagerScrollDirection) {
 @property (retain, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (retain, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidthConstraint;
 @property (retain, nonatomic) IBOutlet NSLayoutConstraint *buttonViewWidthConstraint;
-@property (retain, nonatomic) IBOutlet NSLayoutConstraint *selectBarWidthConstraint;
-@property (retain, nonatomic) IBOutlet NSLayoutConstraint *selectBarLeftConstraint;
+@property (retain, nonatomic) IBOutlet MainCategorySelectBar *selectBar;
 @property (retain, nonatomic) UIScrollView *pagerScollView;
 @property (assign, nonatomic) BOOL isFitTextWidth;
 @property (assign, nonatomic) NSInteger maxShowCount;
@@ -56,8 +46,8 @@ typedef NS_ENUM(NSUInteger, MainCategoryPagerScrollDirection) {
 - (void)setGatherButtonHidden:(BOOL)hidden;
 - (void)updatePagerScrollView;
 - (void)startScrollAnimation;
-- (ViewTabData *)getCurrentViewTabData;
-- (NSString *)getCurrentData;
+- (ViewTabData *)getSelectViewTabData;
+- (NSString *)getSelectData;
 - (void)openGatherView:(BOOL)isAnimation;
 - (void)closeGatherView:(BOOL)isAnimation;
 

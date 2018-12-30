@@ -7,12 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomXibView.h"
+#import "MainCategoryCurrentData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainCategorySelectBar : UIView
+@interface MainCategorySelectBar : CustomXibView
 
-@property (retain, nonatomic) IBOutlet UIView *view;
+@property (retain, nonatomic) NSLayoutConstraint *viewWidthConstraint; //width 설정
+@property (retain, nonatomic) NSLayoutConstraint *viewLeftConstraint; //left 설정
+
+- (void)setWidthWithLeft:(CGFloat)width left:(CGFloat)left;
+- (BOOL)move:(CGFloat)beforeOffsetX data:(MainCategoryCurrentData *)data tabCount:(NSInteger)tabCount;
+- (void)updateWidth:(MainCategoryTabButtonView *)nextTabView data:(MainCategoryCurrentData *)data;
+- (BOOL)isMove:(MainCategoryCurrentData *)data tabCount:(NSInteger)tabCount;
 
 @end
 

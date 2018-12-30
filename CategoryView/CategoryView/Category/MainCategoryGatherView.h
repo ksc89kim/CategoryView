@@ -9,17 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "AutoHeightStackView.h"
 #import "TabController.h"
+#import "CustomXibView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MainCategoryGatherViewDelegate;
 
-@interface MainCategoryGatherView : UIView <TabControllerDelegate> {
+@interface MainCategoryGatherView : CustomXibView <TabControllerDelegate> {
     TabController *tabController;
     CGFloat originalAllTabViewHeight;
 }
 
-@property (retain, nonatomic) IBOutlet UIView *view;
 @property (nonatomic, assign) id <MainCategoryGatherViewDelegate> delegate;
 @property (retain, nonatomic) IBOutlet UIButton *dimButton;
 @property (retain, nonatomic) IBOutlet UIView *allTabView;

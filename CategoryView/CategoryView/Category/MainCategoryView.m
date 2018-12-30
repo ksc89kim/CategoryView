@@ -14,13 +14,10 @@
 - (void)dealloc {
     [_data release];
     [_viewTabData release];
-    [_view release];
     [_contentView release];
     [_buttonViewWidthConstraint release];
     [_contentViewWidthConstraint release];
     [_scrollView release];
-    [_selectBarWidthConstraint release];
-    [_selectBarLeftConstraint release];
     [tabController release];
     [_pagerScollView release];
     [_actionButton release];
@@ -29,104 +26,30 @@
     [_gatherTitleLabel release];
     [_topLine release];
     [_shadowImageView release];
+    [_selectBar release];
+    [currentData release];
     [super dealloc];
 }
 
-- (instancetype)init
-{
-    self = [self initWithFrame:[[[UIApplication sharedApplication] keyWindow] bounds]];
-    if (self) {
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setup];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    if (self) {
-    }
-    return self;
-}
-
-- (void)awakeFromNib{
-    [super awakeFromNib];
-    [self setup];
-}
-
-- (void)prepareForInterfaceBuilder{
-    [super prepareForInterfaceBuilder];
-    [self setup];
-}
-
-- (void)setup {
-    [self setNib];
-    [self setUI];
-    [self setEvent];
-    [self setController];
-}
-
-- (void)setNib{
-    _view = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] objectAtIndex:0];
-    [_view setFrame:CGRectMake(0, 0, [self frame].size.width, [self frame].size.height)];
-    [_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    [self addSubview:_view];
-    [self setConstraint:_view];
-}
-
 - (void)setController {
+    [super setController];
     tabController = [[TabController alloc] init];
     [tabController setDelegate:self];
+    
+    if (currentData == nil) {
+        currentData = [[MainCategoryCurrentData alloc] init];
+    }
 }
 
 - (void)setUI {
+    [super setUI];
     _maxShowCount = 5;
     [self setGatherUI];
 }
 
-- (void)setConstraint:(UIView *)view {
-    self.translatesAutoresizingMaskIntoConstraints = NO;
-    NSLayoutConstraint *viewWidth =  [NSLayoutConstraint constraintWithItem:view
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                 multiplier:1
-                                                                   constant:0];
-    
-    NSLayoutConstraint *viewHeight =  [NSLayoutConstraint constraintWithItem:view
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                  multiplier:1
-                                                                    constant:0];
-    
-    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1
-                                                                constant:0];
-    
-    NSLayoutConstraint *centerY = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterY
-                                                              multiplier:1
-                                                                constant:0];
-    
-    [self addConstraints:[NSArray arrayWithObjects:viewWidth,viewHeight,centerX,centerY,nil]];
+- (void)setEvent {
+    [super setEvent];
+    [_actionButton addTarget:self action:@selector(onGatherView:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setGatherUI {
@@ -179,17 +102,13 @@
     [gatherView setHidden:YES];
 }
 
-- (void)setEvent {
-    [_actionButton addTarget:self action:@selector(onGatherView:) forControlEvents:UIControlEventTouchUpInside];
-}
-
 - (void)setSelectIndex:(NSInteger)index {
     if(isViewTabData && [_viewTabData count] < 1) {
         return;
     } else if (!isViewTabData && [_data count] < 1) {
         return;
     }
-    
+
     [self layoutIfNeeded];
     isAnimation = YES;
     _selectIndex = index;
@@ -206,8 +125,7 @@
                           delay:0.0
                         options: UIViewAnimationOptionCurveEaseOut
                      animations:^(void) {
-                         [_selectBarLeftConstraint setConstant:tabView.frame.origin.x];
-                         [_selectBarWidthConstraint setConstant:[tabView.viewWidthConstraint constant]];
+                         [_selectBar setWidthWithLeft:[tabView.viewWidthConstraint constant] left:tabView.frame.origin.x];
                          [self layoutIfNeeded];
                      }
                      completion:^(BOOL finished) {
@@ -273,14 +191,14 @@
     }
 }
 
-- (ViewTabData *)getCurrentViewTabData {
+- (ViewTabData *)getSelectViewTabData {
     if(isViewTabData && [_viewTabData count] > 0) {
         return [_viewTabData objectAtIndex:_selectIndex];
     }
     return nil;
 }
 
-- (NSString *)getCurrentData {
+- (NSString *)getSelectData {
     if (!isViewTabData && [_data count] > 0) {
         return [_data objectAtIndex:_selectIndex];
     }
@@ -289,7 +207,7 @@
 
 
 - (void)updateUI {
-    [_view layoutIfNeeded];
+    [view layoutIfNeeded];
     [_scrollView layoutIfNeeded];
     
     for (UIView *view in [tabController buttonViews]) {
@@ -386,8 +304,7 @@
                                            multiplier:1
                                              constant:0];
         
-        [_selectBarLeftConstraint setConstant:0];
-        [_selectBarWidthConstraint setConstant:[currentTabView.viewWidthConstraint constant]];
+        [_selectBar setWidthWithLeft:[currentTabView.viewWidthConstraint constant] left:0];
     } else {
         left = [NSLayoutConstraint constraintWithItem:currentTabView
                                             attribute:NSLayoutAttributeLeft
@@ -406,11 +323,11 @@
     }
     
     if (_isFitTextWidth) {
-        if ([_contentViewWidthConstraint constant] > _view.bounds.size.width - [_buttonViewWidthConstraint constant]) {
+        if ([_contentViewWidthConstraint constant] > view.bounds.size.width - [_buttonViewWidthConstraint constant]) {
             [self setGatherButtonHidden:NO];
         } else {
             [self setGatherButtonHidden:YES];
-            [_view layoutIfNeeded];
+            [view layoutIfNeeded];
             CGFloat buttonWidth = _scrollView.frame.size.width;
             buttonWidth = _scrollView.frame.size.width / dataCount;
             for (MainCategoryTabButtonView *tabView in [tabController buttonViews]) {
@@ -448,29 +365,22 @@
     if(isAnimation || _pagerScollView == nil) {
         return;
     }
-    if ([self moveSelectBar]) {
-        [self updateSelectBarWidth];
+    
+    [currentData setCurrentData:_pagerScollView tabController:tabController];
+    if ([_selectBar move:beforeOffsetX data:currentData tabCount:[tabController count]]) {
+        MainCategoryTabButtonView *nextTabView = (MainCategoryTabButtonView *)[tabController getButtonView:currentData.index+1];
+        [_selectBar updateWidth:nextTabView data:currentData];
     }
     
-    if (currentScrollPercent < 1){
-        _selectIndex = currentIndex;
+    if (currentData.scrollPercent < 1){
+        _selectIndex = currentData.index;
         [tabController selectTabIndex:_selectIndex];
         [self moveCenterScrollView:_selectIndex];
         [gatherView setSelectIndex:_selectIndex];
         [self doDelegate];
     }
     
-    beforeOffsetX = currentOffsetX;
-}
-
--(MainCategoryPagerScrollDirection) getCurrentDirection {
-    if (_pagerScollView == nil) {
-        return NoneDirection;
-    }
-    if (beforeOffsetX > currentIndex) {
-        return LeftDirection;
-    }
-    return RightDirection;
+    beforeOffsetX = currentData.offsetX;
 }
 
 - (void) moveCenterScrollView:(NSInteger)index {
@@ -480,45 +390,6 @@
     movePositionX = (movePositionX < 0) ? 0:movePositionX;
     movePositionX = (movePositionX > limitPosition) ? limitPosition:movePositionX;
     [_scrollView setContentOffset:CGPointMake(movePositionX, _scrollView.contentOffset.y) animated:YES];
-}
-
-- (BOOL) moveSelectBar {
-    currentOffsetX = [_pagerScollView contentOffset].x;
-    CGFloat pagerScrollWidth = [_pagerScollView bounds].size.width;
-    currentIndex = [_pagerScollView contentOffset].x / [_pagerScollView bounds].size.width;
-    currentTabView = (MainCategoryTabButtonView *)[tabController getButtonView:currentIndex];
-    currentScrollPercent = ((int)currentOffsetX % (int)pagerScrollWidth) / pagerScrollWidth * 100;
-    CGFloat tabViewPercentWidth = [currentTabView.viewWidthConstraint constant] * currentScrollPercent / 100;
-    
-    if (currentScrollPercent < 0 || currentTabView == nil || !(currentIndex >= 0 && currentIndex < [tabController count] - 1 )) {
-        return false;
-    }
-    
-    switch ([self getCurrentDirection]) {
-        case LeftDirection: {
-            CGFloat minusPosition = [currentTabView.viewWidthConstraint constant] - tabViewPercentWidth;
-            [_selectBarLeftConstraint setConstant:(currentTabView.frame.origin.x + [currentTabView.viewWidthConstraint constant]) - minusPosition];
-        }
-            break;
-        case RightDirection: {
-            [_selectBarLeftConstraint setConstant:currentTabView.frame.origin.x + tabViewPercentWidth];
-        }
-            break;
-        default:
-            break;
-    }
-    
-    return true;
-}
-
-- (void)updateSelectBarWidth {
-    MainCategoryTabButtonView *nextTabView = (MainCategoryTabButtonView *)[tabController getButtonView:currentIndex+1];
-    if (nextTabView == nil || currentTabView == nil) {
-        return;
-    }
-    
-    CGFloat percent = (([nextTabView.viewWidthConstraint constant] -[currentTabView.viewWidthConstraint constant]) * currentScrollPercent / 100);
-    [_selectBarWidthConstraint setConstant:[currentTabView.viewWidthConstraint constant] + percent];
 }
 
 - (void)doDelegate {

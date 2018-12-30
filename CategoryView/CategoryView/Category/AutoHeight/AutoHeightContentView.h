@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AutoHeightLabel.h"
+#import "UIView+Constraint.h"
 
 #define AUTOHEIGHTCONSTRAINT @"autoHeightConstraint"
 
@@ -31,14 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 // xib view 높이 설정
 - (void)initHeight:(UIView *)xibView;
 - (void)initHeight:(UIView *)xibView height:(CGFloat)height;
-- (void)setConstraint:(UIView *)view;
 - (void)setConstraint:(UIView *)view height:(CGFloat)height;
 - (void)setConstraintHeight:(CGFloat)height;
 
 // 높이 반환
 - (CGFloat) getContentViewHeight;
-
-- (NSLayoutConstraint *) findViewHeightConstraint:(UIView *)view identifier:(NSString *)identifier;
 
 // 라벨 높이 자동 조절
 - (void)addAutoLabel:(AutoHeightLabel *)label;

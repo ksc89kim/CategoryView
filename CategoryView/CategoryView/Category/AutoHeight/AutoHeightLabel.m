@@ -50,23 +50,10 @@
     _baseHeight = [self.viewHeightConstraint constant];
 }
 
-
 #pragma mark - Find Funtion
 
 - (NSLayoutConstraint *) findViewHeightConstraint {
-    return [self findViewHeightConstraint:self identifier:AUTOHEIGHTLABELCONSTRAINT];
+    return [self findViewConstraint:self identifier:AUTOHEIGHTLABELCONSTRAINT];
 }
-
-- (NSLayoutConstraint *) findViewHeightConstraint:(UIView *)view identifier:(NSString *)identifier{
-    NSLayoutConstraint *findConstraint = nil;
-    for(NSLayoutConstraint *cons in view.constraints)   {
-        if ([cons.identifier isEqualToString:identifier]) {
-            findConstraint = cons;
-            break;
-        }
-    }
-    return findConstraint;
-}
-
 
 @end

@@ -81,7 +81,6 @@
 }
 
 - (void) setDefaultView {
-    ;
     [self.layer setBorderColor:[[UIColor colorWithRed:235/255 green:235/255 blue:235/255 alpha:1] CGColor]];
     [_titleLabel setTextColor:[UIColor colorWithRed:35/255 green:25/255 blue:22/255 alpha:1] ];
     UIFont *font = [UIFont systemFontOfSize:[_titleLabel.font pointSize]];
@@ -94,7 +93,5 @@
     UIFont *font = [UIFont boldSystemFontOfSize:[_titleLabel.font pointSize]];
     [_titleLabel setFont:font];
 }
-
-
 
 @end

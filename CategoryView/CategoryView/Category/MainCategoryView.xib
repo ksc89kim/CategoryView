@@ -23,8 +23,7 @@
                 <outlet property="gatherTitleLabel" destination="rk1-0G-zNE" id="apq-7C-2Fe"/>
                 <outlet property="gatherTitleView" destination="VFi-ZQ-4z4" id="eA1-vA-Hxt"/>
                 <outlet property="scrollView" destination="jIc-72-I8k" id="fLZ-s5-cmb"/>
-                <outlet property="selectBarLeftConstraint" destination="cR3-Vj-uUC" id="bh1-PG-ewp"/>
-                <outlet property="selectBarWidthConstraint" destination="Ayl-gD-4gJ" id="q4Y-c5-pFd"/>
+                <outlet property="selectBar" destination="u4G-VX-NIy" id="YHn-tQ-qjg"/>
                 <outlet property="shadowImageView" destination="TTC-tI-1eY" id="EB8-ZW-hSW"/>
                 <outlet property="topLine" destination="8Lf-KA-WKX" id="tj8-fT-YKK"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3B9-Ew-uDs"/>
@@ -41,12 +40,12 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vLx-Ti-7wo" userLabel="contentView">
                             <rect key="frame" x="0.0" y="0.0" width="0.0" height="41"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u4G-VX-NIy" userLabel="selectBarView">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u4G-VX-NIy" userLabel="selectBarView" customClass="MainCategorySelectBar">
                                     <rect key="frame" x="0.0" y="40" width="0.0" height="1"/>
                                     <color key="backgroundColor" red="0.90980392160000001" green="0.2666666667" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="9pq-fN-Agu"/>
-                                        <constraint firstAttribute="width" id="Ayl-gD-4gJ"/>
+                                        <constraint firstAttribute="width" identifier="mainSelectbarWidthConstraint" id="Ayl-gD-4gJ"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -54,7 +53,7 @@
                             <constraints>
                                 <constraint firstAttribute="width" id="OWI-iq-Nfq"/>
                                 <constraint firstAttribute="bottom" secondItem="u4G-VX-NIy" secondAttribute="bottom" id="aaz-hG-dbO"/>
-                                <constraint firstItem="u4G-VX-NIy" firstAttribute="leading" secondItem="vLx-Ti-7wo" secondAttribute="leading" id="cR3-Vj-uUC"/>
+                                <constraint firstItem="u4G-VX-NIy" firstAttribute="leading" secondItem="vLx-Ti-7wo" secondAttribute="leading" identifier="mainSelectbarLeftConstraint" id="cR3-Vj-uUC"/>
                             </constraints>
                         </view>
                     </subviews>

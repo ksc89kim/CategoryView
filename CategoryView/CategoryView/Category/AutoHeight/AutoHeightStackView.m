@@ -68,7 +68,7 @@
         } else if ([view isKindOfClass:[AutoHeightContentView class]]){
             totalHeight += [self getHeightWithSpacing:(AutoHeightStackView *)view index:i];
         } else {
-             NSLayoutConstraint *height = [self findViewHeightConstraint:view identifier:AUTOHEIGHTCONSTRAINT];
+             NSLayoutConstraint *height = [self findViewConstraint:view identifier:AUTOHEIGHTCONSTRAINT];
             if (height != nil) {
                 totalHeight += [self getHeightWithSpacing:[view isHidden] height:[height constant] index:i];
             } else {

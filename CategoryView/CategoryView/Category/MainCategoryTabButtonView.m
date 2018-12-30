@@ -8,8 +8,9 @@
 
 #import "MainCategoryTabButtonView.h"
 
-@implementation MainCategoryTabButtonView
+#define MAIN_CATEGORY_WIDTH_CONSTRAINT @"mainCategoryWidthConstraint"
 
+@implementation MainCategoryTabButtonView
 
 - (void)dealloc {
     [_view release];
@@ -52,6 +53,21 @@
 
 - (void)setup {
     [self setNib];
+    [self setConstraint:_view];
+    
+    _viewWidthConstraint = [self findViewWidthConstraint];
+    if(_viewWidthConstraint == nil) {
+        _viewWidthConstraint =  [NSLayoutConstraint constraintWithItem:self
+                                                             attribute:NSLayoutAttributeWidth
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:nil
+                                                             attribute:NSLayoutAttributeWidth
+                                                            multiplier:1
+                                                              constant:100];
+        _viewWidthConstraint.identifier = MAIN_CATEGORY_WIDTH_CONSTRAINT;
+        [self addConstraint:_viewWidthConstraint];
+    }
+    
     [self setUI];
 }
 
@@ -60,65 +76,11 @@
     [_view setFrame:CGRectMake(0, 0, [self frame].size.width, [self frame].size.height)];
     [_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [self addSubview:_view];
-    [self setConstraint:_view];
 }
 
 - (void)setUI {
     [self setDefaultView];
 }
-
-- (void)setConstraint:(UIView *)view {
-    self.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    NSLayoutConstraint *viewWidth =  [NSLayoutConstraint constraintWithItem:view
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                 multiplier:1
-                                                                   constant:0];
-    
-    
-    NSLayoutConstraint *viewHeight =  [NSLayoutConstraint constraintWithItem:view
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                  multiplier:1
-                                                                    constant:0];
-    
-    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1
-                                                                constant:0];
-    
-    NSLayoutConstraint *centerY = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterY
-                                                              multiplier:1
-                                                                constant:0];
-    
-    [self addConstraints:[NSArray arrayWithObjects:viewWidth,viewHeight,centerX,centerY,nil]];
-    
-    _viewWidthConstraint = [self findViewWidthConstraint];
-    if(_viewWidthConstraint == nil) {
-        _viewWidthConstraint =  [NSLayoutConstraint constraintWithItem:self
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:nil
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                 multiplier:1
-                                                                   constant:100];
-        _viewWidthConstraint.identifier = @"mainCategoryWidthConstraint";
-        [self addConstraint:_viewWidthConstraint];
-    }
-}
-
 - (void)setTabSelected:(BOOL)isSelected {
     [super setTabSelected:isSelected];
     if (isSelected) {
@@ -128,19 +90,8 @@
     }
 }
 
-- (NSLayoutConstraint *) findViewConstraint:(UIView *)view identifier:(NSString *)identifier{
-    NSLayoutConstraint *findConstraint = nil;
-    for(NSLayoutConstraint *cons in view.constraints)   {
-        if ([cons.identifier isEqualToString:identifier]) {
-            findConstraint = cons;
-            break;
-        }
-    }
-    return findConstraint;
-}
-
 - (NSLayoutConstraint *) findViewWidthConstraint {
-    return [self findViewConstraint:self identifier:@"mainCategoryWidthConstraint"];
+    return [self findViewConstraint:self identifier:MAIN_CATEGORY_WIDTH_CONSTRAINT];
 }
 
 - (void) setDefaultView {

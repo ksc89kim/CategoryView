@@ -37,6 +37,9 @@
 		A476A9C22196E1B6009892BC /* SubCategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = A476A9B22196E1B6009892BC /* SubCategoryView.m */; };
 		A476A9C42196E1B6009892BC /* TabButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = A476A9B52196E1B6009892BC /* TabButtonView.m */; };
 		A476A9C52196E1B6009892BC /* TabController.m in Sources */ = {isa = PBXBuildFile; fileRef = A476A9B72196E1B6009892BC /* TabController.m */; };
+		A4DE131221D8973000DC0E0F /* CustomXibView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DE131121D8973000DC0E0F /* CustomXibView.m */; };
+		A4DE131521D8978200DC0E0F /* UIView+Constraint.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DE131421D8978200DC0E0F /* UIView+Constraint.m */; };
+		A4DE131B21D8B1DE00DC0E0F /* MainCategoryCurrentData.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DE131A21D8B1DE00DC0E0F /* MainCategoryCurrentData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +112,12 @@
 		A476A9B52196E1B6009892BC /* TabButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabButtonView.m; sourceTree = "<group>"; };
 		A476A9B62196E1B6009892BC /* TabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabController.h; sourceTree = "<group>"; };
 		A476A9B72196E1B6009892BC /* TabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabController.m; sourceTree = "<group>"; };
+		A4DE131021D8973000DC0E0F /* CustomXibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomXibView.h; sourceTree = "<group>"; };
+		A4DE131121D8973000DC0E0F /* CustomXibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomXibView.m; sourceTree = "<group>"; };
+		A4DE131321D8978200DC0E0F /* UIView+Constraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Constraint.h"; sourceTree = "<group>"; };
+		A4DE131421D8978200DC0E0F /* UIView+Constraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Constraint.m"; sourceTree = "<group>"; };
+		A4DE131921D8B1DE00DC0E0F /* MainCategoryCurrentData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainCategoryCurrentData.h; sourceTree = "<group>"; };
+		A4DE131A21D8B1DE00DC0E0F /* MainCategoryCurrentData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainCategoryCurrentData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +219,7 @@
 		A476A9A12196E1B6009892BC /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				A4DE130F21D8973000DC0E0F /* Base */,
 				A421E1C42196F5FB00CF9A99 /* AutoHeight */,
 				A421E1C22196E63100CF9A99 /* MainCategoryGatherView.xib */,
 				A421E1B82196E5FC00CF9A99 /* MainCategoryGatherTabButtonView.xib */,
@@ -226,6 +236,8 @@
 				A476A9A92196E1B6009892BC /* MainCategoryTabButtonView.m */,
 				A476A9AB2196E1B6009892BC /* MainCategoryView.h */,
 				A476A9AC2196E1B6009892BC /* MainCategoryView.m */,
+				A4DE131921D8B1DE00DC0E0F /* MainCategoryCurrentData.h */,
+				A4DE131A21D8B1DE00DC0E0F /* MainCategoryCurrentData.m */,
 				A42F3C3021BBA2C8009E2CB0 /* MainCategorySelectBar.h */,
 				A42F3C3121BBA2C8009E2CB0 /* MainCategorySelectBar.m */,
 				A476A9AE2196E1B6009892BC /* SubCategoryTabButtonView.h */,
@@ -240,6 +252,17 @@
 				A421E1CE2196F65A00CF9A99 /* ViewTabData.m */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		A4DE130F21D8973000DC0E0F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				A4DE131021D8973000DC0E0F /* CustomXibView.h */,
+				A4DE131121D8973000DC0E0F /* CustomXibView.m */,
+				A4DE131321D8978200DC0E0F /* UIView+Constraint.h */,
+				A4DE131421D8978200DC0E0F /* UIView+Constraint.m */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -383,6 +406,7 @@
 				A476A9C42196E1B6009892BC /* TabButtonView.m in Sources */,
 				A476A9B82196E1B6009892BC /* MainCategoryGatherTabButtonView.m in Sources */,
 				A476A9BC2196E1B6009892BC /* MainCategoryTabButtonView.m in Sources */,
+				A4DE131221D8973000DC0E0F /* CustomXibView.m in Sources */,
 				A421E1D82196FD5200CF9A99 /* ScrollContentView.m in Sources */,
 				A476A9742196E170009892BC /* ViewController.m in Sources */,
 				A476A9C02196E1B6009892BC /* SubCategoryTabButtonView.m in Sources */,
@@ -393,7 +417,9 @@
 				A421E1CD2196F62300CF9A99 /* AutoHeightLabel.m in Sources */,
 				A476A9BE2196E1B6009892BC /* MainCategoryView.m in Sources */,
 				A476A9712196E170009892BC /* AppDelegate.m in Sources */,
+				A4DE131521D8978200DC0E0F /* UIView+Constraint.m in Sources */,
 				A476A9C52196E1B6009892BC /* TabController.m in Sources */,
+				A4DE131B21D8B1DE00DC0E0F /* MainCategoryCurrentData.m in Sources */,
 				A421E1C92196F5FB00CF9A99 /* AutoHeightContentView.m in Sources */,
 				A421E1CF2196F65A00CF9A99 /* ViewTabData.m in Sources */,
 				A476A9BA2196E1B6009892BC /* MainCategoryGatherView.m in Sources */,
