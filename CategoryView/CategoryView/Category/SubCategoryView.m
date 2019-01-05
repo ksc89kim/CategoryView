@@ -19,6 +19,8 @@
     [super dealloc];
 }
 
+#pragma mark - Init Function
+
 - (instancetype)init {
     self = [self initWithFrame:[[[UIApplication sharedApplication] keyWindow] bounds]];
     if (self) {
@@ -41,6 +43,8 @@
     return self;
 }
 
+#pragma mark - Xib Function
+
 - (void)awakeFromNib{
     [super awakeFromNib];
     [self setup];
@@ -50,6 +54,8 @@
     [super prepareForInterfaceBuilder];
     [self setup];
 }
+
+#pragma mark - Set Function
 
 - (void)setup {
     [self setNib];
@@ -103,6 +109,8 @@
     [self doDelegate];
 }
 
+#pragma mark - Update Function
+
 - (void)updateUI {
     for (UIView *view in [self.stackView arrangedSubviews]) {
         [self.stackView removeArrangedSubview:view];
@@ -118,45 +126,21 @@
 }
 
 - (void)updateViewDataUI {
-    NSInteger count = (_viewTabData.count / _maxColumn);
-    count = (_viewTabData.count % _maxColumn == 0) ? count:count+1;
+    NSInteger count = [self getDataCount:_viewTabData.count];
     NSInteger index = 0;
     [tabViews removeAllObjects];
+    
     for (int i=1;i<=count;i++) {
-        UIStackView *horizontalStackView = [[[UIStackView alloc] init] autorelease];
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = NO;
-        [horizontalStackView setAxis:UILayoutConstraintAxisHorizontal];
-        [horizontalStackView setAlignment:UIStackViewAlignmentFill];
-        [horizontalStackView setDistribution:UIStackViewDistributionFillEqually];
-        [horizontalStackView setSpacing:3];
-        [self.stackView addArrangedSubview:horizontalStackView];
-        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:horizontalStackView
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:nil
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                           multiplier:1
-                                                                             constant:39];
-        heightConstraint.identifier = AUTOHEIGHTCONSTRAINT;
-        heightConstraint.priority = 999;
-        [horizontalStackView addConstraint:heightConstraint];
+        UIStackView *rowStackView =  [self createRowStackView];
+        [self.stackView addArrangedSubview:rowStackView];
         
-        CGFloat blank = _maxColumn;
-        if (i == count) {
-            blank = (_viewTabData.count % _maxColumn == 0) ? blank : _viewTabData.count % _maxColumn;
-        }
+        CGFloat blankIndex = [self getCalBlankIndex:i maxCount:count dataCount:_viewTabData.count];
         for(int j=1;j<=_maxColumn;j++){
-            SubCategoryTabButtonView *tabView =  [[[SubCategoryTabButtonView alloc] init] autorelease];
-            if (j > blank) {
-                [tabView setBlankHidden:NO];
-            } else {
-                ViewTabData *viewTabData = (ViewTabData *)[_viewTabData objectAtIndex:index];
-                [tabView.titleLabel setText:viewTabData.title];
-                [tabViews addObject:tabView];
-                index++;
-            }
-            [horizontalStackView addArrangedSubview:tabView];
-            
+            BOOL isBlank = (j > blankIndex);
+            ViewTabData *viewTabData = [_viewTabData objectAtIndex:index];
+            SubCategoryTabButtonView *tabView = [self createSubCategoryTabView:isBlank title:viewTabData.title];
+            index += (isBlank) ? 0:1;
+            [rowStackView addArrangedSubview:tabView];
         }
     }
     [tabController setTabs:YES tabs:tabViews];
@@ -164,49 +148,83 @@
 }
 
 - (void)updateDataUI {
-    NSInteger count = (_data.count / _maxColumn);
-    count = (_data.count % _maxColumn == 0) ? count:count+1;
+    NSInteger count = [self getDataCount:_data.count];
     NSInteger index = 0;
     [tabViews removeAllObjects];
+    
     for (int i=1;i<=count;i++) {
-        UIStackView *horizontalStackView = [[[UIStackView alloc] init] autorelease];
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = NO;
-        [horizontalStackView setAxis:UILayoutConstraintAxisHorizontal];
-        [horizontalStackView setAlignment:UIStackViewAlignmentFill];
-        [horizontalStackView setDistribution:UIStackViewDistributionFillEqually];
-        [horizontalStackView setSpacing:3];
-        [self.stackView addArrangedSubview:horizontalStackView];
-        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:horizontalStackView
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:nil
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                           multiplier:1
-                                                                             constant:39];
-        heightConstraint.identifier = AUTOHEIGHTCONSTRAINT;
-        heightConstraint.priority = 999;
-        [horizontalStackView addConstraint:heightConstraint];
+        UIStackView *rowStackView =  [self createRowStackView];
+        [self.stackView addArrangedSubview:rowStackView];
         
-        CGFloat blank = _maxColumn;
-        if (i == count) {
-            blank = (_data.count % _maxColumn == 0) ? blank : _data.count % _maxColumn;
-        }
+        CGFloat blankIndex = [self getCalBlankIndex:i maxCount:count dataCount:_data.count];
         for(int j=1;j<=_maxColumn;j++){
-            SubCategoryTabButtonView *tabView =  [[[SubCategoryTabButtonView alloc] init] autorelease];
-            if (j > blank) {
-                [tabView setBlankHidden:NO];
-            } else {
-                [tabView.titleLabel setText:[_data objectAtIndex:index]];
-                [tabViews addObject:tabView];
-                index++;
-            }
-            [horizontalStackView addArrangedSubview:tabView];
-            
+            BOOL isBlank = (j > blankIndex);
+            SubCategoryTabButtonView *tabView = [self createSubCategoryTabView:isBlank title:[_data objectAtIndex:index]];
+            index += (isBlank) ? 0:1;
+            [rowStackView addArrangedSubview:tabView];
         }
     }
     [tabController setTabs:YES tabs:tabViews];
     [self refreshAutoHeight:YES];
 }
+
+#pragma mark - Create Function
+
+- (UIStackView *)createRowStackView {
+    UIStackView *rowStackView = [[[UIStackView alloc] init] autorelease];
+    rowStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [rowStackView setAxis:UILayoutConstraintAxisHorizontal];
+    [rowStackView setAlignment:UIStackViewAlignmentFill];
+    [rowStackView setDistribution:UIStackViewDistributionFillEqually];
+    [rowStackView setSpacing:3];
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:rowStackView
+                                                                        attribute:NSLayoutAttributeHeight
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:nil
+                                                                        attribute:NSLayoutAttributeHeight
+                                                                       multiplier:1
+                                                                         constant:39];
+    heightConstraint.identifier = AUTOHEIGHTCONSTRAINT;
+    heightConstraint.priority = 999;
+    [rowStackView addConstraint:heightConstraint];
+    return rowStackView;
+}
+
+- (SubCategoryTabButtonView *)createSubCategoryTabView:(BOOL)isHidden title:(NSString *)title {
+    SubCategoryTabButtonView *tabView =  [[[SubCategoryTabButtonView alloc] init] autorelease];
+    if (isHidden) {
+        [tabView setBlankHidden:NO];
+    } else {
+        [tabView.titleLabel setText:title];
+        [tabViews addObject:tabView];
+    }
+    return tabView;
+}
+
+#pragma mark - Get Function
+
+- (NSInteger)getDataCount:(NSInteger)dataCount {
+    NSInteger count = (dataCount / _maxColumn);
+    count = (dataCount % _maxColumn == 0) ? count:count+1;
+    return count;
+}
+
+- (CGFloat)getCalBlankIndex:(NSInteger)index maxCount:(NSInteger)maxCount dataCount:(NSInteger)dataCount{
+    CGFloat blankIndex = _maxColumn;
+    if (index == maxCount) {
+        blankIndex = (dataCount % _maxColumn == 0) ? blankIndex : dataCount % _maxColumn;
+    }
+    return blankIndex;
+}
+
+- (ViewTabData *)getCurrentViewTabData {
+    if(isViewTabData && [_viewTabData count] > 0) {
+        return [_viewTabData objectAtIndex:_selectIndex];
+    }
+    return nil;
+}
+
+#pragma mark - Etc Function
 
 - (void)tabAnimation {
     CGFloat viewWidth = self.frame.size.width;
@@ -227,14 +245,6 @@
         }
         rowDelay += 0.1;
     }
- 
-}
-
-- (ViewTabData *)getCurrentViewTabData {
-    if(isViewTabData && [_viewTabData count] > 0) {
-        return [_viewTabData objectAtIndex:_selectIndex];
-    }
-    return nil;
 }
 
 - (void)touchTab:(TabController *)tabController selectedButtonView:(TabButtonView *)buttonView {

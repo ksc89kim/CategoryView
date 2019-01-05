@@ -12,6 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+    메인카테고리 셀렉트 바
+    - 메인 카테고리 하단에 있는 셀렉트바를 표현함.
+ */
 @interface MainCategorySelectBar : CustomXibView
 
 @property (retain, nonatomic) NSLayoutConstraint *viewWidthConstraint; //width 설정

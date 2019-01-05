@@ -10,6 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+    탭 컨트롤러
+    - 커스텀 탭뷰를 만들려면 해당 클래스를 상속 받아야함.
+ */
 @interface TabButtonView : UIView
 
 @property (retain, nonatomic) IBOutlet UIButton *actionButton;

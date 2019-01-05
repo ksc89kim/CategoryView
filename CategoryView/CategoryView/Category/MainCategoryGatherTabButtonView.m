@@ -17,6 +17,8 @@
     [super dealloc];
 }
 
+#pragma mark - Init Function
+
 - (instancetype)init
 {
     self = [self initWithFrame:[[[UIApplication sharedApplication] keyWindow] bounds]];
@@ -42,6 +44,8 @@
     return self;
 }
 
+#pragma mark - Xib Function
+
 - (void)awakeFromNib{
     [super awakeFromNib];
     [self setup];
@@ -51,6 +55,8 @@
     [super prepareForInterfaceBuilder];
     [self setup];
 }
+
+#pragma mark - Set Function
 
 - (void)setup {
     [self setNib];

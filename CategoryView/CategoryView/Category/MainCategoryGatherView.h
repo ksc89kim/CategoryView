@@ -13,6 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+    메인카테고리의 모아보기 뷰
+    - 메인 카테고리에 있는 탭 버튼들을 한번에 모아볼수 있게 만듬.
+ */
 @protocol MainCategoryGatherViewDelegate;
 
 @interface MainCategoryGatherView : CustomXibView <TabControllerDelegate> {

@@ -31,6 +31,8 @@
     [super dealloc];
 }
 
+#pragma mark - Set Function
+
 - (void)setController {
     [super setController];
     tabController = [[TabController alloc] init];
@@ -135,22 +137,6 @@
     [self doDelegate];
 }
 
-- (void)startScrollAnimation {
-    CGFloat tailOffsetW = _contentView.bounds.size.width - _scrollView.bounds.size.width;
-    if (tailOffsetW > 50) {
-        tailOffsetW = 50;
-    }
-    
-    [_scrollView setContentOffset:CGPointMake(tailOffsetW, 0)];
-    [UIView animateWithDuration:0.5
-                          delay:0
-                        options: UIViewAnimationOptionCurveEaseOut
-                     animations:^(void) {
-                         [_scrollView setContentOffset:CGPointMake(0, 0)];
-                     }
-                     completion:nil];
-}
-
 - (void)setGatherButtonHidden:(BOOL)hidden {
     [_actionButton setHidden:hidden];
     if (hidden) {
@@ -191,6 +177,25 @@
     }
 }
 
+- (void)setFitTextWidth:(MainCategoryTabButtonView *)tabView {
+    CGFloat buttonWidth = _scrollView.bounds.size.width;
+    if (_isFitTextWidth) {
+        CGFloat labelWidth = [self getStringWidth:tabView.titleLabel] + 24;
+        [tabView.viewWidthConstraint setConstant:labelWidth];
+    } else {
+        CGFloat buttonCount = _scrollView.bounds.size.width;
+        if (isViewTabData) {
+            buttonCount = (_viewTabData.count >= _maxShowCount) ? _maxShowCount:_viewTabData.count;
+        } else {
+            buttonCount = (_data.count >= _maxShowCount) ? _maxShowCount:_data.count;
+        }
+        buttonWidth = _scrollView.bounds.size.width / buttonCount;
+        [tabView.viewWidthConstraint setConstant:buttonWidth];
+    }
+}
+
+#pragma mark - Get Function
+
 - (ViewTabData *)getSelectViewTabData {
     if(isViewTabData && [_viewTabData count] > 0) {
         return [_viewTabData objectAtIndex:_selectIndex];
@@ -205,6 +210,14 @@
     return nil;
 }
 
+- (CGFloat) getStringWidth:(UILabel *)label {
+    CGRect rect = [label.attributedText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, label.frame.size.height)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    return rect.size.width + 1;
+}
+
+
+#pragma mark - Update Function
 
 - (void)updateUI {
     [view layoutIfNeeded];
@@ -265,6 +278,30 @@
     [self checkScrollViewWidth:_viewTabData.count];
 }
 
+- (void)updatePagerScrollView {
+    if(isAnimation || _pagerScollView == nil) {
+        return;
+    }
+    
+    [currentData setCurrentData:_pagerScollView tabController:tabController];
+    if ([_selectBar move:beforeOffsetX data:currentData tabCount:[tabController count]]) {
+        MainCategoryTabButtonView *nextTabView = (MainCategoryTabButtonView *)[tabController getButtonView:currentData.index+1];
+        [_selectBar updateWidth:nextTabView data:currentData];
+    }
+    
+    if (currentData.scrollPercent < 1){
+        _selectIndex = currentData.index;
+        [tabController selectTabIndex:_selectIndex];
+        [self moveCenterScrollView:_selectIndex];
+        [gatherView setSelectIndex:_selectIndex];
+        [self doDelegate];
+    }
+    
+    beforeOffsetX = currentData.offsetX;
+}
+
+#pragma mark - Create Function
+
 - (MainCategoryTabButtonView *)createMainCategoryTabButtonView:(NSString *)title isNew:(BOOL)isNew {
     MainCategoryTabButtonView *tabView = [[[MainCategoryTabButtonView alloc] init] autorelease];
     [tabView.titleLabel setText:title];
@@ -277,6 +314,8 @@
     [self setFitTextWidth:tabView];
     return tabView;
 }
+
+#pragma mark - Add Function
 
 - (void)addContentViewConstraints:(MainCategoryTabButtonView *)currentTabView beforeTabView:(MainCategoryTabButtonView *)beforeTabView{
     NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:currentTabView
@@ -317,6 +356,8 @@
     [_contentView addConstraints:[NSArray arrayWithObjects:top,bottom,left, nil]];
 }
 
+#pragma mark - Check Function
+
 - (void)checkScrollViewWidth:(NSInteger)dataCount {
     if (dataCount < 1) {
         return;
@@ -338,50 +379,7 @@
     }
 }
 
-- (void)setFitTextWidth:(MainCategoryTabButtonView *)tabView {
-    CGFloat buttonWidth = _scrollView.bounds.size.width;
-    if (_isFitTextWidth) {
-        CGFloat labelWidth = [self getStringWidth:tabView.titleLabel] + 24;
-        [tabView.viewWidthConstraint setConstant:labelWidth];
-    } else {
-        CGFloat buttonCount = _scrollView.bounds.size.width;
-        if (isViewTabData) {
-            buttonCount = (_viewTabData.count >= _maxShowCount) ? _maxShowCount:_viewTabData.count;
-        } else {
-            buttonCount = (_data.count >= _maxShowCount) ? _maxShowCount:_data.count;
-        }
-        buttonWidth = _scrollView.bounds.size.width / buttonCount;
-        [tabView.viewWidthConstraint setConstant:buttonWidth];
-    }
-}
-
-- (CGFloat) getStringWidth:(UILabel *)label {
-    CGRect rect = [label.attributedText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, label.frame.size.height)
-                                                     options:NSStringDrawingUsesLineFragmentOrigin context:nil];
-    return rect.size.width + 1;
-}
-
-- (void)updatePagerScrollView {
-    if(isAnimation || _pagerScollView == nil) {
-        return;
-    }
-    
-    [currentData setCurrentData:_pagerScollView tabController:tabController];
-    if ([_selectBar move:beforeOffsetX data:currentData tabCount:[tabController count]]) {
-        MainCategoryTabButtonView *nextTabView = (MainCategoryTabButtonView *)[tabController getButtonView:currentData.index+1];
-        [_selectBar updateWidth:nextTabView data:currentData];
-    }
-    
-    if (currentData.scrollPercent < 1){
-        _selectIndex = currentData.index;
-        [tabController selectTabIndex:_selectIndex];
-        [self moveCenterScrollView:_selectIndex];
-        [gatherView setSelectIndex:_selectIndex];
-        [self doDelegate];
-    }
-    
-    beforeOffsetX = currentData.offsetX;
-}
+#pragma mark - Etc Function
 
 - (void) moveCenterScrollView:(NSInteger)index {
     MainCategoryTabButtonView *tabView = (MainCategoryTabButtonView *)[tabController getButtonView:index];
@@ -405,6 +403,25 @@
         [_delegate didSelectMainCategoryTab:self index:_selectIndex];
     }
 }
+
+
+- (void)startScrollAnimation {
+    CGFloat tailOffsetW = _contentView.bounds.size.width - _scrollView.bounds.size.width;
+    if (tailOffsetW > 50) {
+        tailOffsetW = 50;
+    }
+    
+    [_scrollView setContentOffset:CGPointMake(tailOffsetW, 0)];
+    [UIView animateWithDuration:0.5
+                          delay:0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^(void) {
+                         [_scrollView setContentOffset:CGPointMake(0, 0)];
+                     }
+                     completion:nil];
+}
+
+#pragma mark - GatherView Function
 
 - (void)onGatherView:(UIButton *)button {
     if (button.isSelected) {
@@ -452,13 +469,13 @@
     }
 }
 
-#pragma mark - TabController Delegate
+#pragma mark - TabControllerDelegate
 
 -(void)touchTab:(TabController *)tabController selectedButtonView:(TabButtonView *)buttonView {
     [self setSelectIndex:[buttonView tag]];
 }
 
-#pragma mark - MainCategoryViewDelegate Delegate
+#pragma mark - MainCategoryGatherViewDelegate
 
 - (void)touchGatherViewDimLayer {
     [_actionButton setSelected:NO];

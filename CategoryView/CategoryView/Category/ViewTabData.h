@@ -11,9 +11,13 @@
 #ifndef ViewTabData_h
 #define ViewTabData_h
 
+/*
+    카테고리 데이터
+ */
 @interface ViewTabData : NSObject
 @property (retain, nonatomic) NSString *title;
 @property (assign) BOOL isNew;
+
 @end
 
 #endif /* ViewTabData_h */

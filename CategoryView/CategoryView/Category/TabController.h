@@ -9,8 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "TabButtonView.h"
 
+/*
+    탭 컨트롤러
+    - 버튼을 탭형태로 컨트롤러 함.
+    - 커스텀 탭뷰도 가능.
+ */
 @protocol TabControllerDelegate;
-
 @interface TabController : NSObject {
     BOOL isViews;
 }

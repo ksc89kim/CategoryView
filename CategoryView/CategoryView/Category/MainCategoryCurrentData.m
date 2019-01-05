@@ -15,6 +15,8 @@
     [super dealloc];
 }
 
+#pragma mark - Set Function
+
 - (void)setCurrentData:(UIScrollView *)pagerScrollView tabController:(TabController *)tabController {
     _offsetX = [pagerScrollView contentOffset].x;
     CGFloat pagerScrollWidth = [pagerScrollView bounds].size.width;
@@ -22,6 +24,8 @@
     self.tabView = (MainCategoryTabButtonView *)[tabController getButtonView:_index];
     _scrollPercent = ((int)_offsetX % (int)pagerScrollWidth) / pagerScrollWidth * 100;
 }
+
+#pragma mark - Get Function
 
 - (CGFloat)getTabViewWidth {
     return  [_tabView.viewWidthConstraint constant] * _scrollPercent / 100;

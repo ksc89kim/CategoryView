@@ -12,6 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+    서브 카테고리 뷰
+    - 카테고리에 해당하는 뷰들을 구성 및 애니메이션을 가지고 있음.
+ */
 @protocol SubCategoryViewDelegate;
 @class ViewTabData;
 @interface SubCategoryView : AutoHeightStackView <TabControllerDelegate>{

@@ -19,6 +19,8 @@
     [super dealloc];
 }
 
+#pragma mark - Set Function
+
 - (void)setController {
     [super setController];
     tabController = [[TabController alloc] init];
@@ -40,6 +42,12 @@
     [_data retain];
     [self updateUI];
 }
+
+- (void)setSelectIndex:(NSInteger)index {
+    [tabController selectTabIndex:index];
+}
+
+#pragma mark - Update Function
 
 -(void)updateUI {
     [self layoutIfNeeded];
@@ -85,6 +93,8 @@
     [tabController setTabs:YES tabs:tabs];
 }
 
+#pragma mark - Event Function
+
 - (void)onDim:(UIButton *)button {
    [self setHidden:YES];
     if ([_delegate respondsToSelector:@selector(touchGatherViewDimLayer)]) {
@@ -99,9 +109,7 @@
     }
 }
 
-- (void)setSelectIndex:(NSInteger)index {
-    [tabController selectTabIndex:index];
-}
+#pragma mark - Animation Function
 
 - (void)openAnimation {
     [self setHidden:NO];

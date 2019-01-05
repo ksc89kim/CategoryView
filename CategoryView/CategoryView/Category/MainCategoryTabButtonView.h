@@ -11,6 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+    메인카테고리의 탭 버튼 뷰
+ */
+
 @interface MainCategoryTabButtonView : TabButtonView
 
 @property (retain, nonatomic) IBOutlet UIView *view;

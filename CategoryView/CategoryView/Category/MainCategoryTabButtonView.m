@@ -19,6 +19,8 @@
     [super dealloc];
 }
 
+#pragma mark - Init Function
+
 - (instancetype)init {
     self = [self initWithFrame:[[[UIApplication sharedApplication] keyWindow] bounds]];
     if (self) {
@@ -41,6 +43,8 @@
     return self;
 }
 
+#pragma mark - Xib Function
+
 - (void)awakeFromNib{
     [super awakeFromNib];
     [self setup];
@@ -50,6 +54,8 @@
     [super prepareForInterfaceBuilder];
     [self setup];
 }
+
+#pragma mark - Set Function
 
 - (void)setup {
     [self setNib];
@@ -81,6 +87,7 @@
 - (void)setUI {
     [self setDefaultView];
 }
+
 - (void)setTabSelected:(BOOL)isSelected {
     [super setTabSelected:isSelected];
     if (isSelected) {
@@ -88,10 +95,6 @@
     } else {
         [self setDefaultView];
     }
-}
-
-- (NSLayoutConstraint *) findViewWidthConstraint {
-    return [self findViewConstraint:self identifier:MAIN_CATEGORY_WIDTH_CONSTRAINT];
 }
 
 - (void) setDefaultView {
@@ -104,6 +107,12 @@
     [_titleLabel setTextColor:[UIColor colorWithRed:232/255 green:68/255 blue:24/255 alpha:1]];
     UIFont *font = [UIFont boldSystemFontOfSize:[_titleLabel.font pointSize]];
     [_titleLabel setFont:font];
+}
+
+#pragma mark - Find Function
+
+- (NSLayoutConstraint *) findViewWidthConstraint {
+    return [self findViewConstraint:self identifier:MAIN_CATEGORY_WIDTH_CONSTRAINT];
 }
 
 @end

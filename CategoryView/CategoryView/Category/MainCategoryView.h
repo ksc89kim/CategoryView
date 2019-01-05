@@ -14,6 +14,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+    메인 카테고리 뷰
+    - 카테고리에 해당하는 뷰들을 구성 및 스크롤 애니메이션을 가지고 있음.
+    - 오른쪽 버튼 모아보기 버튼이 있으며, 모아보기 클래스를 통제함.
+ */
 @class ViewTabData;
 @protocol MainCategoryViewDelegate;
 @interface MainCategoryView : CustomXibView <TabControllerDelegate, MainCategoryGatherViewDelegate> {
