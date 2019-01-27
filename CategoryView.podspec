@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "CategoryView"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "A short description of CategoryView."
 
   # This description is used to generate tags and improve search results.
@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
+  TODO: Add long description of the pod here.
                    DESC
 
   s.homepage     = "https://github.com/ksc89kim/CategoryView"
@@ -38,7 +39,7 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  s.license      = "MIT"
+  s.license      = { :type => "MIT", :file => "LICENSE" }
   # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
 
@@ -67,7 +68,7 @@ Pod::Spec.new do |s|
   # s.platform     = :ios, "5.0"
 
   #  When using multiple platforms
-  # s.ios.deployment_target = "5.0"
+  s.ios.deployment_target = "10.0"
   # s.osx.deployment_target = "10.7"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
@@ -90,8 +91,12 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "CategoryView", "CategoryView/Category/**/*"
-
+  non_arc_files  = "CategoryView/CategoryView/Category/**/*"
+  s.exclude_files = non_arc_files
+  s.subspec 'no-arc' do |sna|
+  sna.requires_arc = false
+  sna.source_files = non_arc_files
+  end
   # s.public_header_files = "Classes/**/*.h"
 
 
