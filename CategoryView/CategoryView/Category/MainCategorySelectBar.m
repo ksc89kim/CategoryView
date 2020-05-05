@@ -22,15 +22,9 @@
     
     self.viewWidthConstraint = [self findViewWidthConstraint];
     if(self.viewWidthConstraint == nil) {
-        self.viewWidthConstraint =  [NSLayoutConstraint constraintWithItem:self
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                multiplier:1
-                                                                  constant:0];
+        self.viewWidthConstraint = [self.widthAnchor constraintEqualToConstant:0];
+        [self.viewWidthConstraint setActive:YES];
         self.viewWidthConstraint.identifier = MAIN_SELECTBAR_WIDTH_CONSTRAINT;
-        [self addConstraint:self.viewWidthConstraint];
     }
     
     self.viewLeftConstraint = [self findViewLeftConstraint];

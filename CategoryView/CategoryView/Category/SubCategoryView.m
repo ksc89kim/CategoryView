@@ -177,16 +177,10 @@
     [rowStackView setAlignment:UIStackViewAlignmentFill];
     [rowStackView setDistribution:UIStackViewDistributionFillEqually];
     [rowStackView setSpacing:3];
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:rowStackView
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                       multiplier:1
-                                                                         constant:39];
+    NSLayoutConstraint *heightConstraint = [rowStackView.heightAnchor constraintEqualToConstant:39];
     heightConstraint.identifier = AUTOHEIGHTCONSTRAINT;
     heightConstraint.priority = 999;
-    [rowStackView addConstraint:heightConstraint];
+    [heightConstraint setActive:YES];
     return rowStackView;
 }
 

@@ -66,6 +66,7 @@
     NSInteger count = (_data.count / maxColumn);
     count = (_data.count % maxColumn == 0) ? count:count+1;
     NSMutableArray *tabs = [[[NSMutableArray alloc] init] autorelease];
+    
     for (int i=1;i<=count;i++) {
         CGFloat blank = maxColumn;
         if (i == count) {
@@ -87,6 +88,7 @@
             y += height + padding;
         }
     }
+    
     [_allTabViewHeight setConstant:y+13];
     originalAllTabViewHeight = [_allTabViewHeight constant];
     [self layoutIfNeeded];

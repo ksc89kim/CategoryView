@@ -12,40 +12,10 @@
 
 - (void)setConstraint:(UIView *)view {
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    NSLayoutConstraint *viewWidth =  [NSLayoutConstraint constraintWithItem:view
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                 multiplier:1
-                                                                   constant:0];
-    
-    NSLayoutConstraint *viewHeight =  [NSLayoutConstraint constraintWithItem:view
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                  multiplier:1
-                                                                    constant:0];
-    
-    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1
-                                                                constant:0];
-    
-    NSLayoutConstraint *centerY = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterY
-                                                              multiplier:1
-                                                                constant:0];
-    
-    [self addConstraints:[NSArray arrayWithObjects:viewWidth,viewHeight,centerX,centerY,nil]];
+    [[self.widthAnchor constraintEqualToAnchor:view.widthAnchor constant:0] setActive:YES];
+    [[self.heightAnchor constraintEqualToAnchor:view.heightAnchor constant:0] setActive:YES];
+    [[self.centerXAnchor constraintEqualToAnchor:view.centerXAnchor constant:0] setActive:YES];
+    [[self.centerYAnchor constraintEqualToAnchor:view.centerYAnchor constant:0] setActive:YES];
 }
 
 - (NSLayoutConstraint *) findViewConstraint:(UIView *)view identifier:(NSString *)identifier{

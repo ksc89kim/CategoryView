@@ -59,30 +59,10 @@
     [gatherView setDelegate:self];
     gatherView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:gatherView];
-
-    NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:gatherView
-                                                            attribute:NSLayoutAttributeTop
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeBottom
-                                                           multiplier:1
-                                                             constant:0];
     
-    NSLayoutConstraint *leading =  [NSLayoutConstraint constraintWithItem:gatherView
-                                                                attribute:NSLayoutAttributeLeading
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self
-                                                                attribute:NSLayoutAttributeLeading
-                                                               multiplier:1
-                                                                 constant:0];
-    
-    NSLayoutConstraint *trailing =  [NSLayoutConstraint constraintWithItem:gatherView
-                                                                 attribute:NSLayoutAttributeTrailing
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self
-                                                                 attribute:NSLayoutAttributeTrailing
-                                                                multiplier:1
-                                                                  constant:0];
+    [[gatherView.topAnchor constraintEqualToAnchor:self.bottomAnchor constant:0] setActive:YES];
+    [[gatherView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:0] setActive:YES];
+    [[gatherView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0] setActive:YES];
     
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     CGFloat height = 0;
@@ -92,15 +72,7 @@
         height = window.bounds.size.height;
     }
     
-    NSLayoutConstraint *heightConstraint =  [NSLayoutConstraint constraintWithItem:gatherView
-                                                                         attribute:NSLayoutAttributeHeight
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:nil
-                                                                         attribute:NSLayoutAttributeHeight
-                                                                        multiplier:1
-                                                                          constant:height];
-    [gatherView addConstraint:heightConstraint];
-    [self addConstraints:[NSArray arrayWithObjects:top,leading,trailing,nil]];
+    [[gatherView.heightAnchor constraintEqualToConstant:height] setActive:YES];
     [gatherView setHidden:YES];
 }
 
@@ -318,42 +290,15 @@
 #pragma mark - Add Function
 
 - (void)addContentViewConstraints:(MainCategoryTabButtonView *)currentTabView beforeTabView:(MainCategoryTabButtonView *)beforeTabView{
-    NSLayoutConstraint *top =  [NSLayoutConstraint constraintWithItem:currentTabView
-                                                            attribute:NSLayoutAttributeTop
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:_contentView
-                                                            attribute:NSLayoutAttributeTop
-                                                           multiplier:1
-                                                             constant:0];
-    
-    NSLayoutConstraint *bottom =  [NSLayoutConstraint constraintWithItem:_contentView
-                                                               attribute:NSLayoutAttributeBottom
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:currentTabView
-                                                               attribute:NSLayoutAttributeBottom
-                                                              multiplier:1
-                                                                constant:1];
-    NSLayoutConstraint *left = nil;
+    [[currentTabView.topAnchor constraintEqualToAnchor:_contentView.topAnchor constant:0] setActive:YES];
+    [[_contentView.bottomAnchor constraintEqualToAnchor:currentTabView.bottomAnchor constant:1] setActive:YES];
+
     if (beforeTabView == nil) {
-        left = [NSLayoutConstraint constraintWithItem:currentTabView
-                                            attribute:NSLayoutAttributeLeft
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:_contentView
-                                            attribute:NSLayoutAttributeLeft
-                                           multiplier:1
-                                             constant:0];
-        
+        [[currentTabView.leadingAnchor constraintEqualToAnchor:_contentView.leadingAnchor constant:0] setActive:YES];
         [_selectBar setWidthWithLeft:[currentTabView.viewWidthConstraint constant] left:0];
     } else {
-        left = [NSLayoutConstraint constraintWithItem:currentTabView
-                                            attribute:NSLayoutAttributeLeft
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:beforeTabView
-                                            attribute:NSLayoutAttributeRight
-                                           multiplier:1
-                                             constant:0];
+        [[currentTabView.leadingAnchor constraintEqualToAnchor:beforeTabView.trailingAnchor constant:0] setActive:YES];
     }
-    [_contentView addConstraints:[NSArray arrayWithObjects:top,bottom,left, nil]];
 }
 
 #pragma mark - Check Function

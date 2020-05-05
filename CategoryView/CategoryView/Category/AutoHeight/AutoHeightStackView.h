@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
     자동 높이 조절 스택 뷰
     - 자동 높이 컨텐츠 뷰를 이용하여 높이 조절
-    - 스택 뷰에 들어가는 컨텐츠 뷰의 Autolayout 높이 우선순위들은 999로 설정해야함.
+    - 스택 뷰에 들어가는 컨텐츠 뷰의 Autolayout 높이 우선순위들은 750로 설정해야함.
     - Xib 사용시 AutoLayOut으로 높이를 설정시 identifier를 AUTOHEIGHTCONSTRAINT으로 설정해야함
     - 상속하여 사용하고, initBaseHeight을 반드시 설정해야함.
  */

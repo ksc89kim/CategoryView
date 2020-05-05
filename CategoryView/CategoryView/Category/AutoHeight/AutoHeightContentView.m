@@ -64,16 +64,10 @@
     
     self.viewHeightConstraint = [self findViewHeightConstraint];
     if(self.viewHeightConstraint == nil) {
-        self.viewHeightConstraint =  [NSLayoutConstraint constraintWithItem:self
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:nil
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                 multiplier:1
-                                                                   constant:0];
+        self.viewHeightConstraint =  [self.heightAnchor constraintEqualToConstant:0];
         self.viewHeightConstraint.identifier = AUTOHEIGHTCONSTRAINT;
-        self.viewHeightConstraint.priority = 999;
-        [self addConstraint:self.viewHeightConstraint];
+        self.viewHeightConstraint.priority = 750;
+        [self.viewHeightConstraint setActive:true];
     }
     
     [self setConstraintHeight:height];

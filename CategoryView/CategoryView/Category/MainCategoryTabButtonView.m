@@ -63,15 +63,9 @@
     
     _viewWidthConstraint = [self findViewWidthConstraint];
     if(_viewWidthConstraint == nil) {
-        _viewWidthConstraint =  [NSLayoutConstraint constraintWithItem:self
-                                                             attribute:NSLayoutAttributeWidth
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:nil
-                                                             attribute:NSLayoutAttributeWidth
-                                                            multiplier:1
-                                                              constant:100];
+        _viewWidthConstraint = [self.widthAnchor constraintEqualToConstant:100];
+        [_viewWidthConstraint setActive:YES];
         _viewWidthConstraint.identifier = MAIN_CATEGORY_WIDTH_CONSTRAINT;
-        [self addConstraint:_viewWidthConstraint];
     }
     
     [self setUI];
