@@ -14,7 +14,6 @@
 - (void)dealloc {
     [_view release];
     [_titleLabel release];
-    [_subCategoryView release];
     [super dealloc];
 }
 
@@ -54,15 +53,8 @@
 }
 
 - (void)setUI {
-    NSMutableArray *subData = [NSMutableArray arrayWithObjects:@"제1서브탭",@"제2서브탭",@"제3서브탭",@"제4서브탭", nil];
-    
-    [_subCategoryView setDelegate:self];
-    [_subCategoryView setMaxColumn:4];
-    [_subCategoryView setData:subData];
+
 }
 
-- (void)didSelectSubCategoryTab:(SubCategoryView *)view data:(NSString *)data {
-    NSLog(@"sub tab %@",data);
-}
 
 @end

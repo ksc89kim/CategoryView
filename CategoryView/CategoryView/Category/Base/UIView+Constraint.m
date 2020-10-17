@@ -12,10 +12,10 @@
 
 - (void)setConstraint:(UIView *)view {
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    [[self.widthAnchor constraintEqualToAnchor:view.widthAnchor constant:0] setActive:YES];
-    [[self.heightAnchor constraintEqualToAnchor:view.heightAnchor constant:0] setActive:YES];
-    [[self.centerXAnchor constraintEqualToAnchor:view.centerXAnchor constant:0] setActive:YES];
-    [[self.centerYAnchor constraintEqualToAnchor:view.centerYAnchor constant:0] setActive:YES];
+    [[self.leftAnchor constraintEqualToAnchor:view.leftAnchor constant:0] setActive:YES];
+    [[self.rightAnchor constraintEqualToAnchor:view.rightAnchor constant:0] setActive:YES];
+    [[self.topAnchor constraintEqualToAnchor:view.topAnchor constant:0] setActive:YES];
+    [[self.bottomAnchor constraintEqualToAnchor:view.bottomAnchor constant:0] setActive:YES];
 }
 
 - (NSLayoutConstraint *) findViewConstraint:(UIView *)view identifier:(NSString *)identifier{

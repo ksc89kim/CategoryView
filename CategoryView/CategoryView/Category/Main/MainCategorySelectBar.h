@@ -22,9 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (retain, nonatomic) NSLayoutConstraint *viewLeftConstraint; //left 설정
 
 - (void)setWidthWithLeft:(CGFloat)width left:(CGFloat)left;
-- (BOOL)move:(CGFloat)beforeOffsetX data:(MainCategoryCurrentData *)data tabCount:(NSInteger)tabCount;
-- (void)updateWidth:(MainCategoryTabButtonView *)nextTabView data:(MainCategoryCurrentData *)data;
-- (BOOL)isMove:(MainCategoryCurrentData *)data tabCount:(NSInteger)tabCount;
+- (BOOL)move:(CGFloat)beforeOffsetX data:(MainCategoryCurrentData *)data count:(NSInteger)count;
+- (void)updateWidth:(CGRect)nextCellFrame data:(MainCategoryCurrentData *)data;
+- (BOOL)isMove:(MainCategoryCurrentData *)data count:(NSInteger)count;
 
 @end
 

@@ -11,24 +11,40 @@
 @implementation MainCategoryCurrentData
 
 - (void)dealloc {
-    [_tabView release];
     [super dealloc];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+      [self initData];
+    }
+    return self;
+}
+
+- (void)initData {
+    cellFrame = CGRectZero;
 }
 
 #pragma mark - Set Function
 
-- (void)setCurrentData:(UIScrollView *)pagerScrollView tabController:(TabController *)tabController {
+- (void)setCurrentData:(UIScrollView *)pagerScrollView controller:(id<MainCategoryController>)controller {
     _offsetX = [pagerScrollView contentOffset].x;
     CGFloat pagerScrollWidth = [pagerScrollView bounds].size.width;
     _index = [pagerScrollView contentOffset].x / [pagerScrollView bounds].size.width;
-    self.tabView = (MainCategoryTabButtonView *)[tabController getButtonView:_index];
+    cellFrame = [controller rectAtIndex:_index];
     _scrollPercent = ((int)_offsetX % (int)pagerScrollWidth) / pagerScrollWidth * 100;
 }
 
 #pragma mark - Get Function
 
-- (CGFloat)getTabViewWidth {
-    return  [_tabView.viewWidthConstraint constant] * _scrollPercent / 100;
+- (CGFloat)getPercentCellWidth {
+    return cellFrame.size.width * _scrollPercent / 100;
+}
+
+- (CGRect)getCellFrame {
+    return cellFrame;
 }
 
 -(MainCategoryPagerScrollDirection)getDirection:(CGFloat)beforeOffsetX{

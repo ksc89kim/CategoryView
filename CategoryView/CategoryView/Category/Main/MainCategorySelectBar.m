@@ -11,6 +11,14 @@
 #define MAIN_SELECTBAR_WIDTH_CONSTRAINT @"mainSelectbarWidthConstraint"
 #define MAIN_SELECTBAR_LEFT_CONSTRAINT @"mainSelectbarLeftConstraint"
 
+@interface MainCategorySelectBar()
+
+- (BOOL)isMove:(MainCategoryCurrentData *)data count:(NSInteger)count;
+- (NSLayoutConstraint *) findViewWidthConstraint;
+- (NSLayoutConstraint *) findViewLeftConstraint;
+
+@end
+
 @implementation MainCategorySelectBar
 
 - (void)dealloc {
@@ -48,20 +56,19 @@
     }
 }
 
-- (BOOL)move:(CGFloat)beforeOffsetX data:(MainCategoryCurrentData *)data tabCount:(NSInteger)tabCount {
-    if ([self isMove:data tabCount:tabCount]) {
-        CGFloat tabViewPercentWidth = [data getTabViewWidth];
-        CGFloat currentTabViewWidth = [data.tabView.viewWidthConstraint constant];
-        CGFloat currentTabViewX = data.tabView.frame.origin.x;
-        
+- (BOOL)move:(CGFloat)beforeOffsetX data:(MainCategoryCurrentData *)data count:(NSInteger)count {
+    if ([self isMove:data count:count]) {
+        CGRect cellFrame = [data getCellFrame];
+        CGFloat cellPercentWidth = [data getPercentCellWidth];
+
         switch ([data getDirection:beforeOffsetX]) {
             case LeftDirection: {
-                CGFloat minusPosition = currentTabViewWidth - tabViewPercentWidth;
-                [_viewLeftConstraint setConstant:(currentTabViewX + currentTabViewWidth) - minusPosition];
+              CGFloat minusPosition = cellFrame.size.width - cellPercentWidth;
+              [_viewLeftConstraint setConstant:(cellFrame.origin.x + cellFrame.size.width) - minusPosition];
             }
                 break;
             case RightDirection: {
-                [_viewLeftConstraint setConstant:currentTabViewX + tabViewPercentWidth];
+                [_viewLeftConstraint setConstant:cellFrame.origin.x + cellPercentWidth];
             }
             break;
             default:
@@ -72,23 +79,24 @@
     return false;
 }
 
-- (void)updateWidth:(MainCategoryTabButtonView *)nextTabView data:(MainCategoryCurrentData *)data {
-    if (nextTabView == nil || data.tabView == nil) {
+- (void)updateWidth:(CGRect)nextCellFrame data:(MainCategoryCurrentData *)data {
+    if (CGRectEqualToRect(nextCellFrame, CGRectZero) || CGRectEqualToRect([data getCellFrame], CGRectZero)) {
         return;
     }
     
-    CGFloat percent = (([nextTabView.viewWidthConstraint constant] -[data.tabView.viewWidthConstraint constant]) * data.scrollPercent / 100);
-    [_viewWidthConstraint setConstant:[data.tabView.viewWidthConstraint constant] + percent];
+    CGFloat percent = ((nextCellFrame.size.width - [data getCellFrame].size.width) * data.scrollPercent / 100);
+    [_viewWidthConstraint setConstant:[data getCellFrame].size.width + percent];
 }
 
-- (BOOL)isMove:(MainCategoryCurrentData *)data tabCount:(NSInteger)tabCount {
-    if (data.scrollPercent < 0 || data.tabView == nil || !(data.index >= 0 && data.index < tabCount - 1 )) {
+- (BOOL)isMove:(MainCategoryCurrentData *)data count:(NSInteger)count {
+    if (data.scrollPercent < 0 || CGRectEqualToRect([data getCellFrame], CGRectZero) || !(data.index >= 0 && data.index < count - 1 )) {
         return false;
     }
     return true;
 }
 
 #pragma mark - Find Funtion
+
 - (NSLayoutConstraint *) findViewWidthConstraint {
     return [self findViewConstraint:self identifier:MAIN_SELECTBAR_WIDTH_CONSTRAINT];
 }

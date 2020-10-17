@@ -10,6 +10,7 @@
 #import "AutoHeightStackView.h"
 #import "TabController.h"
 #import "CustomXibView.h"
+#import "MainCategoryController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,18 +22,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MainCategoryGatherView : CustomXibView <TabControllerDelegate> {
     TabController *tabController;
-    CGFloat originalAllTabViewHeight;
+    NSMutableArray *tabViewArray;
+    CGFloat beforeViewHeight;
 }
 
+@property (assign, nonatomic) id <MainCategoryController> controller;
 @property (nonatomic, assign) id <MainCategoryGatherViewDelegate> delegate;
 @property (retain, nonatomic) IBOutlet UIButton *dimButton;
-@property (retain, nonatomic) IBOutlet UIView *allTabView;
-@property (retain, nonatomic) IBOutlet NSLayoutConstraint *allTabViewHeight;
-@property (retain, nonatomic) NSMutableArray<NSString *> *data;
+@property (retain, nonatomic) IBOutlet UIStackView *mainStackView;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *viewHeightConstraint;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *viewBottomConstraint;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *viewTopConstraint;
 
 - (void)setSelectIndex:(NSInteger)index;
 - (void)openAnimation;
 - (void)closeAnimation;
+- (void)updateUI;
 
 @end
 

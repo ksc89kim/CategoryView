@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainCategoryGatherView">
             <connections>
-                <outlet property="allTabView" destination="Qn5-Sg-dYW" id="g3O-Ze-C1m"/>
-                <outlet property="allTabViewHeight" destination="v26-YP-4FY" id="WFL-82-0Xn"/>
                 <outlet property="dimButton" destination="cGp-Ge-Nyp" id="fND-9x-ebx"/>
+                <outlet property="mainStackView" destination="d1x-bm-zTa" id="XBd-n7-MmJ"/>
                 <outlet property="view" destination="iN0-l3-epB" id="p2o-hn-fLr"/>
+                <outlet property="viewBottomConstraint" destination="KhA-0H-I9A" id="r98-vR-dea"/>
+                <outlet property="viewHeightConstraint" destination="v26-YP-4FY" id="3fm-Cb-VzY"/>
+                <outlet property="viewTopConstraint" destination="aIj-SC-UNI" id="3uA-jx-bhH"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -37,10 +37,25 @@
                         <constraint firstAttribute="trailing" secondItem="cGp-Ge-Nyp" secondAttribute="trailing" id="wb7-Oo-i5K"/>
                     </constraints>
                 </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qn5-Sg-dYW" userLabel="allTabView">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qn5-Sg-dYW">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="d1x-bm-zTa">
+                            <rect key="frame" x="13" y="13" width="349" height="0.0"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ATx-Ze-Pe7">
+                                    <rect key="frame" x="0.0" y="0.0" width="349" height="0.0"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                </view>
+                            </subviews>
+                        </stackView>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="d1x-bm-zTa" secondAttribute="bottom" priority="750" constant="13" id="KhA-0H-I9A"/>
+                        <constraint firstAttribute="trailing" secondItem="d1x-bm-zTa" secondAttribute="trailing" priority="750" constant="13" id="ZU5-Bi-hTt"/>
+                        <constraint firstItem="d1x-bm-zTa" firstAttribute="top" secondItem="Qn5-Sg-dYW" secondAttribute="top" constant="13" id="aIj-SC-UNI"/>
+                        <constraint firstItem="d1x-bm-zTa" firstAttribute="leading" secondItem="Qn5-Sg-dYW" secondAttribute="leading" priority="750" constant="13" id="otZ-s8-ITR"/>
                         <constraint firstAttribute="height" id="v26-YP-4FY"/>
                     </constraints>
                 </view>

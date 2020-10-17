@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MainCategoryTabButtonView.h"
-#import "TabController.h"
+#import "MainCategoryController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,15 +24,17 @@ typedef NS_ENUM(NSUInteger, MainCategoryPagerScrollDirection) {
     RightDirection
 };
 
-@interface MainCategoryCurrentData : NSObject
+@interface MainCategoryCurrentData : NSObject {
+    CGRect cellFrame;
+}
 
 @property (assign, nonatomic) CGFloat offsetX; // 스크롤 offset
 @property (assign, nonatomic) NSInteger index; // 스크롤 인덱스
 @property (assign, nonatomic) CGFloat scrollPercent; //페이저 스크롤 이동에 대한 퍼센트
-@property (retain, nonatomic) MainCategoryTabButtonView *tabView;
 
-- (void)setCurrentData:(UIScrollView *)pagerScrollView tabController:(TabController *)tabController;
-- (CGFloat)getTabViewWidth;
+- (void)setCurrentData:(UIScrollView *)pagerScrollView controller:(id<MainCategoryController>)controller;
+- (CGFloat)getPercentCellWidth;
+- (CGRect)getCellFrame;
 - (MainCategoryPagerScrollDirection)getDirection:(CGFloat)beforeOffsetX;
 
 @end

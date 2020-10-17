@@ -1,34 +1,43 @@
 //
-//  MainCategoryTabButtonView.m
-//  TestTabView
+//  MainCategoryGatherTabButtonView.m
+//  Mulban
 //
-//  Created by kim sunchul on 2018. 11. 3..
-//  Copyright © 2018년 kim sunchul. All rights reserved.
+//  Created by icenv_89 on 08/11/2018.
+//  Copyright © 2018 Baek. All rights reserved.
 //
 
-#import "MainCategoryTabButtonView.h"
+#import "MainCategoryGatherTabButtonView.h"
 
-#define MAIN_CATEGORY_WIDTH_CONSTRAINT @"mainCategoryWidthConstraint"
+@interface MainCategoryGatherTabButtonView()
 
-@implementation MainCategoryTabButtonView
+- (void)setup;
+- (void)setNib;
+- (void)setUI;
+- (void)setDefaultView;
+- (void)setSelectedView;
+
+@end
+
+@implementation MainCategoryGatherTabButtonView
 
 - (void)dealloc {
     [_view release];
     [_titleLabel release];
-    [_imageView release];
     [super dealloc];
 }
 
 #pragma mark - Init Function
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [self initWithFrame:[[[UIApplication sharedApplication] keyWindow] bounds]];
     if (self) {
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         [self setup];
@@ -36,7 +45,8 @@
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
     self = [super initWithCoder:coder];
     if (self) {
     }
@@ -59,15 +69,6 @@
 
 - (void)setup {
     [self setNib];
-    [self setConstraint:_view];
-    
-    _viewWidthConstraint = [self findViewWidthConstraint];
-    if(_viewWidthConstraint == nil) {
-        _viewWidthConstraint = [self.widthAnchor constraintEqualToConstant:100];
-        [_viewWidthConstraint setActive:YES];
-        _viewWidthConstraint.identifier = MAIN_CATEGORY_WIDTH_CONSTRAINT;
-    }
-    
     [self setUI];
 }
 
@@ -80,6 +81,9 @@
 
 - (void)setUI {
     [self setDefaultView];
+    
+    [self.layer setCornerRadius:7];
+    [self.layer setBorderWidth:1];
 }
 
 - (void)setTabSelected:(BOOL)isSelected {
@@ -92,21 +96,17 @@
 }
 
 - (void) setDefaultView {
-    [_titleLabel setTextColor:UIColor.blackColor];
+    [self.layer setBorderColor:[[UIColor colorWithRed:235/255 green:235/255 blue:235/255 alpha:1] CGColor]];
+    [_titleLabel setTextColor:[UIColor colorWithRed:35/255 green:25/255 blue:22/255 alpha:1] ];
     UIFont *font = [UIFont systemFontOfSize:[_titleLabel.font pointSize]];
     [_titleLabel setFont:font];
 }
 
 - (void) setSelectedView {
+    [self.layer setBorderColor:[[UIColor colorWithRed:232/255 green:68/255 blue:24/255 alpha:1] CGColor]];
     [_titleLabel setTextColor:[UIColor colorWithRed:232/255 green:68/255 blue:24/255 alpha:1]];
     UIFont *font = [UIFont boldSystemFontOfSize:[_titleLabel.font pointSize]];
     [_titleLabel setFont:font];
-}
-
-#pragma mark - Find Function
-
-- (NSLayoutConstraint *) findViewWidthConstraint {
-    return [self findViewConstraint:self identifier:MAIN_CATEGORY_WIDTH_CONSTRAINT];
 }
 
 @end

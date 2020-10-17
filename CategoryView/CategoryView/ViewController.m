@@ -15,6 +15,12 @@
 
 @implementation ViewController
 
+- (void)dealloc {
+    [_mainCategoryView release];
+    [_scrollView release];
+    [super dealloc];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -22,29 +28,52 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    NSMutableArray *mainData = [NSMutableArray arrayWithObjects:@"제1탭",@"제2탭",@"제3탭",@"제4탭",@"제5탭",@"제6탭",@"제7탭", nil];
+    NSMutableArray *cellDatas = [self getCellDatas];
     
-    CGFloat x = 0;
-    [_scrollView layoutIfNeeded];
-    for (int i=0;i<[mainData count]; i++) {
-        ScrollContentView *view = [[[ScrollContentView alloc] initWithFrame:CGRectMake(x, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height)] autorelease];
-        [_scrollView addSubview:view];
-        [view.titleLabel setText:[mainData objectAtIndex:i]];
-        x += _scrollView.bounds.size.width;
-    }
-    [_scrollView setContentSize:CGSizeMake(x,_scrollView.bounds.size.height)];
-    [_scrollView setDelegate:self];
+    [self setScroll];
+    [self setMainCategory:cellDatas];
     
-    [_mainCategoryView setDelegate:self];
-    [_mainCategoryView setIsFitTextWidth:YES];
-    [_mainCategoryView setPagerScollView:_scrollView];
-    [_mainCategoryView setData:mainData];
+    [self createScrollContentUI:cellDatas];
 }
 
-- (void)dealloc {
-    [_mainCategoryView release];
-    [_scrollView release];
-    [super dealloc];
+- (void)setMainCategory:(NSMutableArray *)cellDatas{
+    [_mainCategoryView setDelegate:self];
+    [_mainCategoryView setPagerScollView:_scrollView];
+    [[_mainCategoryView getController] addDataArray:cellDatas];
+    [_mainCategoryView updateUI];
+}
+
+- (void)setScroll {
+    [_scrollView setDelegate:self];
+}
+
+- (void)createScrollContentUI:(NSMutableArray *)cellDatas{
+    CGFloat xOffset = 0;
+    
+    [_scrollView layoutIfNeeded];
+    
+    for (int i=0;i<[cellDatas count]; i++) {
+        MainCategoryCellData *cellData = [cellDatas objectAtIndex:i];
+        
+        ScrollContentView *view = [[[ScrollContentView alloc] initWithFrame:CGRectMake(xOffset, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height)] autorelease];
+        [view.titleLabel setText:[cellData getTitle]];
+        [_scrollView addSubview:view];
+        
+        xOffset += _scrollView.bounds.size.width;
+    }
+    
+    [_scrollView setContentSize:CGSizeMake(xOffset,_scrollView.bounds.size.height)];
+}
+
+- (NSMutableArray *)getCellDatas {
+    NSMutableArray *cellDatas = [NSMutableArray array];
+
+    for (int i=0;i<7;i++) {
+        MainCategoryCellData *cellData = [MainCategoryCellData createCellData:[NSString stringWithFormat:@"%d탭 ########", i+1]];
+        [cellDatas addObject:cellData];
+    }
+    
+    return cellDatas;
 }
 
 - (void)didSelectMainCategoryTab:(MainCategoryView *)view data:(NSString *)data {

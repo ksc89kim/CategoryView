@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -18,12 +16,12 @@
             <connections>
                 <outlet property="actionButton" destination="0M5-vq-goH" id="IZe-X1-VjU"/>
                 <outlet property="buttonViewWidthConstraint" destination="ZWM-bv-EAI" id="HjB-sa-K3c"/>
-                <outlet property="contentView" destination="vLx-Ti-7wo" id="49s-R6-Oo9"/>
-                <outlet property="contentViewWidthConstraint" destination="OWI-iq-Nfq" id="i4u-b3-OeV"/>
+                <outlet property="collectionView" destination="YBr-UF-8fp" id="z7D-5y-yTV"/>
+                <outlet property="contentViewWidthConstraint" destination="LTH-S6-Qsn" id="OnB-ss-mu2"/>
                 <outlet property="gatherTitleLabel" destination="rk1-0G-zNE" id="apq-7C-2Fe"/>
                 <outlet property="gatherTitleView" destination="VFi-ZQ-4z4" id="eA1-vA-Hxt"/>
-                <outlet property="scrollView" destination="jIc-72-I8k" id="fLZ-s5-cmb"/>
-                <outlet property="selectBar" destination="u4G-VX-NIy" id="YHn-tQ-qjg"/>
+                <outlet property="selectBar" destination="JyK-K9-zlf" id="WPs-r3-xUb"/>
+                <outlet property="selectScrollView" destination="lVT-g6-riV" id="TQb-J2-qs9"/>
                 <outlet property="shadowImageView" destination="TTC-tI-1eY" id="EB8-ZW-hSW"/>
                 <outlet property="topLine" destination="8Lf-KA-WKX" id="tj8-fT-YKK"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3B9-Ew-uDs"/>
@@ -34,36 +32,47 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jIc-72-I8k" userLabel="scrollView">
-                    <rect key="frame" x="0.0" y="0.0" width="333" height="41"/>
+                <collectionView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YBr-UF-8fp">
+                    <rect key="frame" x="0.0" y="0.0" width="333" height="40"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="yxT-dj-pfM">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lVT-g6-riV">
+                    <rect key="frame" x="0.0" y="40" width="333" height="2"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vLx-Ti-7wo" userLabel="contentView">
-                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="41"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4t1-R5-7Y7" userLabel="contentView">
+                            <rect key="frame" x="0.0" y="0.0" width="333" height="2"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u4G-VX-NIy" userLabel="selectBarView" customClass="MainCategorySelectBar">
-                                    <rect key="frame" x="0.0" y="40" width="0.0" height="1"/>
-                                    <color key="backgroundColor" red="0.90980392160000001" green="0.2666666667" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JyK-K9-zlf" userLabel="selectBar" customClass="MainCategorySelectBar">
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="2"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="9pq-fN-Agu"/>
-                                        <constraint firstAttribute="width" identifier="mainSelectbarWidthConstraint" id="Ayl-gD-4gJ"/>
+                                        <constraint firstAttribute="width" constant="100" identifier="mainSelectbarWidthConstraint" id="Kss-Mv-Lha"/>
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
-                                <constraint firstAttribute="width" id="OWI-iq-Nfq"/>
-                                <constraint firstAttribute="bottom" secondItem="u4G-VX-NIy" secondAttribute="bottom" id="aaz-hG-dbO"/>
-                                <constraint firstItem="u4G-VX-NIy" firstAttribute="leading" secondItem="vLx-Ti-7wo" secondAttribute="leading" identifier="mainSelectbarLeftConstraint" id="cR3-Vj-uUC"/>
+                                <constraint firstItem="JyK-K9-zlf" firstAttribute="top" secondItem="4t1-R5-7Y7" secondAttribute="top" id="0r7-Di-sdn"/>
+                                <constraint firstAttribute="width" constant="333" id="LTH-S6-Qsn"/>
+                                <constraint firstAttribute="bottom" secondItem="JyK-K9-zlf" secondAttribute="bottom" id="cwW-gP-MR7"/>
+                                <constraint firstItem="JyK-K9-zlf" firstAttribute="top" secondItem="4t1-R5-7Y7" secondAttribute="top" id="dfb-wt-M01"/>
+                                <constraint firstItem="JyK-K9-zlf" firstAttribute="leading" secondItem="4t1-R5-7Y7" secondAttribute="leading" identifier="mainSelectbarLeftConstraint" id="sFU-KH-lC5"/>
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="vLx-Ti-7wo" secondAttribute="bottom" id="10V-Hs-swy"/>
-                        <constraint firstItem="vLx-Ti-7wo" firstAttribute="top" secondItem="jIc-72-I8k" secondAttribute="top" id="5mG-gB-cMC"/>
-                        <constraint firstItem="vLx-Ti-7wo" firstAttribute="leading" secondItem="jIc-72-I8k" secondAttribute="leading" id="BF1-bo-E9z"/>
-                        <constraint firstItem="vLx-Ti-7wo" firstAttribute="height" secondItem="jIc-72-I8k" secondAttribute="height" id="Bwk-Mf-VGl"/>
-                        <constraint firstAttribute="trailing" secondItem="vLx-Ti-7wo" secondAttribute="trailing" id="rNK-Xo-7HG"/>
+                        <constraint firstAttribute="trailing" secondItem="4t1-R5-7Y7" secondAttribute="trailing" id="CCe-rp-0LL"/>
+                        <constraint firstAttribute="bottom" secondItem="4t1-R5-7Y7" secondAttribute="bottom" id="WMc-vh-348"/>
+                        <constraint firstAttribute="height" constant="2" id="dFw-3p-Lnj"/>
+                        <constraint firstItem="4t1-R5-7Y7" firstAttribute="top" secondItem="lVT-g6-riV" secondAttribute="top" id="hST-vc-uTD"/>
+                        <constraint firstItem="4t1-R5-7Y7" firstAttribute="height" secondItem="lVT-g6-riV" secondAttribute="height" id="mur-fN-YFO"/>
+                        <constraint firstItem="4t1-R5-7Y7" firstAttribute="leading" secondItem="lVT-g6-riV" secondAttribute="leading" id="wSj-Aw-F4N"/>
                     </constraints>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HAQ-lY-Lfn" userLabel="buttonView">
@@ -134,25 +143,28 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="YBr-UF-8fp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4gZ-Ek-U7a"/>
+                <constraint firstItem="lVT-g6-riV" firstAttribute="trailing" secondItem="YBr-UF-8fp" secondAttribute="trailing" id="52v-aG-Ncz"/>
                 <constraint firstAttribute="trailing" secondItem="HAQ-lY-Lfn" secondAttribute="trailing" id="5Z9-Lr-8KF"/>
+                <constraint firstItem="lVT-g6-riV" firstAttribute="leading" secondItem="YBr-UF-8fp" secondAttribute="leading" id="6z1-hP-pkJ"/>
                 <constraint firstAttribute="bottom" secondItem="TTC-tI-1eY" secondAttribute="bottom" id="8y2-h3-f30"/>
                 <constraint firstItem="VFi-ZQ-4z4" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="97M-gS-FHZ"/>
+                <constraint firstItem="YBr-UF-8fp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Biz-4B-4mG"/>
                 <constraint firstItem="8Lf-KA-WKX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DRV-cH-lZ2"/>
-                <constraint firstItem="HAQ-lY-Lfn" firstAttribute="leading" secondItem="jIc-72-I8k" secondAttribute="trailing" id="IeG-IJ-X3o"/>
                 <constraint firstAttribute="trailing" secondItem="886-au-vSc" secondAttribute="trailing" id="L2f-wv-fQw"/>
                 <constraint firstItem="8Lf-KA-WKX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Mok-Rb-zOY"/>
                 <constraint firstItem="HAQ-lY-Lfn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="MwC-EJ-Ac7"/>
                 <constraint firstItem="VFi-ZQ-4z4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="N8z-Um-Tqr"/>
-                <constraint firstItem="886-au-vSc" firstAttribute="top" secondItem="jIc-72-I8k" secondAttribute="bottom" id="OKF-vs-2SC"/>
                 <constraint firstItem="886-au-vSc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Pf1-i0-NIf"/>
-                <constraint firstItem="jIc-72-I8k" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="bHJ-fc-IwW"/>
-                <constraint firstItem="jIc-72-I8k" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eve-GF-fhN"/>
+                <constraint firstItem="HAQ-lY-Lfn" firstAttribute="leading" secondItem="YBr-UF-8fp" secondAttribute="trailing" id="R1s-cD-q0H"/>
                 <constraint firstItem="HAQ-lY-Lfn" firstAttribute="leading" secondItem="VFi-ZQ-4z4" secondAttribute="trailing" id="gxE-JK-ipi"/>
+                <constraint firstItem="lVT-g6-riV" firstAttribute="top" secondItem="YBr-UF-8fp" secondAttribute="bottom" id="h25-Ia-Atq"/>
                 <constraint firstAttribute="trailing" secondItem="8Lf-KA-WKX" secondAttribute="trailing" id="ko6-uh-ykc"/>
                 <constraint firstAttribute="bottom" secondItem="VFi-ZQ-4z4" secondAttribute="bottom" id="mF7-Yd-Phd"/>
                 <constraint firstItem="HAQ-lY-Lfn" firstAttribute="leading" secondItem="TTC-tI-1eY" secondAttribute="trailing" id="p1t-pj-sXy"/>
                 <constraint firstAttribute="bottom" secondItem="HAQ-lY-Lfn" secondAttribute="bottom" id="pH4-cB-1sF"/>
                 <constraint firstAttribute="bottom" secondItem="886-au-vSc" secondAttribute="bottom" id="r9k-ic-gXW"/>
+                <constraint firstAttribute="bottom" secondItem="lVT-g6-riV" secondAttribute="bottom" id="ukr-ut-FQe"/>
                 <constraint firstItem="TTC-tI-1eY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zuh-QA-R2v"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
